@@ -1,0 +1,2124 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#050505"
+    >
+
+    <meta
+        name="color-scheme"
+        content="dark"
+    >
+
+    <meta
+        name="description"
+        content="Arcarius Fest — música, experiencia y cultura."
+    >
+
+    <meta
+        name="robots"
+        content="index, follow"
+    >
+
+    <title>Arcarius Fest | The Experience</title>
+
+
+    <!-- =====================================================
+         FAVICON
+         ===================================================== -->
+
+    <!--
+    <link
+        rel="icon"
+        type="image/png"
+        href="assets/branding/favicon.png"
+    >
+    -->
+
+
+    <!-- =====================================================
+         CSS
+         ===================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     PRELOADER
+     ===================================================== -->
+
+<div
+    class="preloader"
+    id="preloader"
+    aria-hidden="true"
+>
+    <div class="preloader__inner">
+
+        <div class="preloader__brand">
+            <img
+                src="assets/branding/arcarius-logo.jpeg"
+                alt="Arcarius Fest"
+            >
+        </div>
+
+        <div class="preloader__line">
+            <span class="preloader__progress"></span>
+        </div>
+
+        <p class="preloader__label">
+            THE EXPERIENCE
+        </p>
+
+    </div>
+</div>
+
+
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+    <header
+        class="site-header"
+        id="site-header"
+    >
+
+        <div class="container site-header__container">
+
+
+            <!-- LOGO -->
+
+            <a
+                class="brand"
+                href="#home"
+                aria-label="Arcarius Fest — Inicio"
+            >
+
+                <span class="brand__placeholder">
+                    ARCARIUS
+                </span>
+
+            </a>
+
+
+            <!-- DESKTOP NAV -->
+
+            <nav
+                class="desktop-nav"
+                aria-label="Navegación principal"
+            >
+
+                <ul class="desktop-nav__list">
+
+                    <li>
+                        <a
+                            href="#experience"
+                            class="nav-link"
+                        >
+                            Experience
+                        </a>
+                    </li>
+
+                    <li>
+                        <a
+                            href="#events"
+                            class="nav-link"
+                        >
+                            Events
+                        </a>
+                    </li>
+
+                    <li>
+                        <a
+                            href="#artists"
+                            class="nav-link"
+                        >
+                            Artists
+                        </a>
+                    </li>
+
+                    <li>
+                        <a
+                            href="#gallery"
+                            class="nav-link"
+                        >
+                            Gallery
+                        </a>
+                    </li>
+
+                    <li>
+                        <a
+                            href="#about"
+                            class="nav-link"
+                        >
+                            About
+                        </a>
+                    </li>
+
+                </ul>
+
+            </nav>
+
+
+            <!-- HEADER ACTIONS -->
+
+            <div class="site-header__actions">
+
+                <a
+                    class="header-ticket-link"
+                    href="#tickets"
+                >
+                    Tickets
+                </a>
+
+
+                <!-- MOBILE BUTTON -->
+
+                <button
+                    class="menu-toggle"
+                    id="menu-toggle"
+                    type="button"
+                    aria-label="Abrir menú"
+                    aria-controls="mobile-menu"
+                    aria-expanded="false"
+                >
+
+                    <span></span>
+                    <span></span>
+                    <span></span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MOBILE MENU
+         ===================================================== -->
+
+    <div
+        class="mobile-menu"
+        id="mobile-menu"
+        aria-hidden="true"
+    >
+
+        <div
+            class="mobile-menu__overlay"
+            data-menu-close
+        ></div>
+
+
+        <aside class="mobile-menu__drawer">
+
+
+            <div class="mobile-menu__header">
+
+                <span class="mobile-menu__brand">
+                    ARCARIUS
+                </span>
+
+                <button
+                    class="mobile-menu__close"
+                    type="button"
+                    aria-label="Cerrar menú"
+                    data-menu-close
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <nav
+                class="mobile-nav"
+                aria-label="Navegación móvil"
+            >
+
+                <ul>
+
+                    <li>
+                        <a
+                            href="#home"
+                            data-menu-link
+                        >
+                            <span>00</span>
+                            Home
+                        </a>
+                    </li>
+
+                    <li>
+                        <a
+                            href="#experience"
+                            data-menu-link
+                        >
+                            <span>01</span>
+                            Experience
+                        </a>
+                    </li>
+
+                    <li>
+                        <a
+                            href="#events"
+                            data-menu-link
+                        >
+                            <span>02</span>
+                            Events
+                        </a>
+                    </li>
+
+                    <li>
+                        <a
+                            href="#artists"
+                            data-menu-link
+                        >
+                            <span>03</span>
+                            Artists
+                        </a>
+                    </li>
+
+                    <li>
+                        <a
+                            href="#gallery"
+                            data-menu-link
+                        >
+                            <span>04</span>
+                            Gallery
+                        </a>
+                    </li>
+
+                    <li>
+                        <a
+                            href="#about"
+                            data-menu-link
+                        >
+                            <span>05</span>
+                            About
+                        </a>
+                    </li>
+
+                    <li>
+                        <a
+                            href="#tickets"
+                            data-menu-link
+                        >
+                            <span>06</span>
+                            Tickets
+                        </a>
+                    </li>
+
+                </ul>
+
+            </nav>
+
+
+            <div class="mobile-menu__footer">
+
+                MUSIC • EXPERIENCE • CULTURE
+
+            </div>
+
+        </aside>
+
+    </div>
+
+
+    <!-- =====================================================
+         MAIN
+         ===================================================== -->
+
+    <main id="main-content">
+
+
+        <!-- =====================================================
+     PHASE 2 — HERO / MAIN EXPERIENCE
+     ===================================================== -->
+
+<section class="hero" id="inicio">
+
+    <!-- =================================================
+         HERO MEDIA
+         ================================================= -->
+
+    <div class="hero__media" aria-hidden="true">
+
+        <!-- Video principal -->
+        <video
+            class="hero__video"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            poster="assets/images/hero-poster.jpg"
+        >
+            <source
+                src="assets/video/arcarius-hero.mp4"
+                type="video/mp4"
+            >
+        </video>
+
+        <!-- Capa cinematográfica -->
+        <div class="hero__overlay"></div>
+
+        <!-- Viñeta inferior -->
+        <div class="hero__vignette"></div>
+
+    </div>
+
+
+    <!-- =================================================
+         HERO CONTENT
+         ================================================= -->
+
+    <div class="hero__container container">
+
+        <div class="hero__content">
+
+            <!-- Pequeña identificación -->
+            <p class="hero__eyebrow">
+                ARCARIUS FEST
+            </p>
+
+
+            <!-- TÍTULO PRINCIPAL -->
+
+           <h1 class="hero__title">
+  <span class="hero__title-line">NO SIGAS EL CAMINO.</span>
+  <span class="hero__title-line hero__title-line--accent">ÁBRELO.</span>
+</h1>
+
+
+            <!-- Línea decorativa -->
+
+            <div
+                class="hero__divider"
+                aria-hidden="true"
+            >
+                <span></span>
+            </div>
+
+
+            <!-- Descripción -->
+
+            <p class="hero__description">
+                Música, energía y una experiencia creada
+                para quedarse contigo.
+            </p>
+
+
+            <!-- =================================================
+                 ACTIONS
+                 ================================================= -->
+
+            <div class="hero__actions">
+
+                <a
+                    href="#experiencia"
+                    class="button button--primary"
+                >
+                    <span>
+                        DESCUBRIR ARCARIUS
+                    </span>
+
+                    <svg
+                        class="button__icon"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+                        <path
+                            d="M5 12h13M13 6l6 6-6 6"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        />
+                    </svg>
+                </a>
+
+
+                <a
+                    href="#tickets"
+                    class="button button--ghost"
+                >
+                    <span>
+                        TICKETS
+                    </span>
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             HERO META
+             ================================================= -->
+
+        <div class="hero__meta">
+
+            <div class="hero__meta-item">
+
+                <span class="hero__meta-line"></span>
+
+                <span class="hero__meta-label">
+                    THE FESTIVAL
+                </span>
+
+            </div>
+
+
+            <div class="hero__meta-item">
+
+                <span class="hero__meta-number">
+                    01
+                </span>
+
+                <span class="hero__meta-label">
+                    EXPERIENCE
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         SCROLL INDICATOR
+         ================================================= -->
+
+    <a
+        href="#experiencia"
+        class="hero__scroll"
+        aria-label="Descubrir la experiencia"
+    >
+
+        <span class="hero__scroll-text">
+            SCROLL TO EXPLORE
+        </span>
+
+        <span
+            class="hero__scroll-line"
+            aria-hidden="true"
+        ></span>
+
+    </a>
+
+
+    <!-- =================================================
+         DECORATIVE FRAME
+         ================================================= -->
+
+    <div
+        class="hero__frame hero__frame--top"
+        aria-hidden="true"
+    ></div>
+
+    <div
+        class="hero__frame hero__frame--bottom"
+        aria-hidden="true"
+    ></div>
+
+</section>
+
+
+        <!-- =================================================
+     EXPERIENCIA
+     ================================================= -->
+
+<section
+    class="section experience"
+    id="experience"
+>
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <p>
+                LA EXPERIENCIA
+            </p>
+
+            <h2>
+                No es un festival.
+                <span>
+                    Es un territorio.
+                </span>
+            </h2>
+
+        </div>
+
+
+        <div class="experience__intro">
+
+            <p>
+                Arcarius nace para quienes buscan algo más que una noche.
+                Un territorio donde la música despierta el instinto,
+                la energía conecta a la manada y cada momento se convierte
+                en parte de una experiencia que permanece.
+            </p>
+
+        </div>
+
+
+        <div class="experience__grid">
+
+
+            <article
+                class="experience-card"
+                data-reveal
+                data-tilt
+            >
+
+                <span>
+                    01
+                </span>
+
+                <h3>
+                    Música
+                </h3>
+
+                <p>
+                    Sonidos que despiertan los sentidos
+                    y marcan el ritmo de la aventura.
+                </p>
+
+            </article>
+
+
+            <article
+                class="experience-card"
+                data-reveal
+                data-tilt
+            >
+
+                <span>
+                    02
+                </span>
+
+                <h3>
+                    Instinto
+                </h3>
+
+                <p>
+                    Una energía que se siente,
+                    se libera y te invita a dejarte llevar.
+                </p>
+
+            </article>
+
+
+            <article
+                class="experience-card"
+                data-reveal
+                data-tilt
+            >
+
+                <span>
+                    03
+                </span>
+
+                <h3>
+                    Manada
+                </h3>
+
+                <p>
+                    Personas que comparten una misma energía,
+                    un mismo espíritu y un mismo territorio.
+                </p>
+
+            </article>
+
+
+            <article
+                class="experience-card"
+                data-reveal
+                data-tilt
+            >
+
+                <span>
+                    04
+                </span>
+
+                <h3>
+                    Legado
+                </h3>
+
+                <p>
+                    Una identidad que trasciende el evento
+                    y permanece mucho después de la noche.
+                </p>
+
+            </article>
+
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+        <!-- =================================================
+     ESENCIA ARCARIUS
+     ================================================= -->
+
+<section
+    class="section about"
+    id="about"
+>
+
+    <div class="container about__container">
+
+
+        <div
+            class="about__visual"
+            data-reveal
+        >
+
+            <div class="media-placeholder">
+
+                ARCARIUS
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="about__content"
+            data-reveal
+        >
+
+            <p class="section-eyebrow">
+                LA ESENCIA ARCARIUS
+            </p>
+
+
+            <h2>
+
+                No todos nacen para
+
+                <span>
+                    seguir el camino.
+                </span>
+
+            </h2>
+
+
+            <p>
+
+                Arcarius nace de un instinto:
+                explorar lo desconocido, desafiar lo establecido
+                y avanzar junto a quienes comparten la misma visión.
+
+                Un territorio donde la música se convierte en energía,
+                la energía en conexión y la conexión en una historia
+                que merece ser vivida.
+
+            </p>
+
+
+            <a
+                href="#history"
+                class="text-link"
+            >
+
+                Descubrir el origen
+
+                <span>
+                    →
+                </span>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+   <!-- =================================================
+     HISTORY — EL ORIGEN
+     ================================================= -->
+
+<section
+    class="section history"
+    id="history"
+>
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <p>
+                EL ORIGEN
+            </p>
+
+            <h2>
+
+                Toda leyenda
+
+                <span>
+                    tiene un comienzo.
+                </span>
+
+            </h2>
+
+        </div>
+
+
+        <div class="history__intro">
+
+            <p class="history__statement">
+                Antes de existir un escenario,
+                existió una idea.
+            </p>
+
+            <p class="history__description">
+                Crear un lugar donde la música no fuera
+                simplemente escuchada, sino vivida.
+                Donde desconocidos pudieran convertirse
+                en una misma energía.
+                Donde cada noche pudiera convertirse
+                en una historia.
+            </p>
+
+        </div>
+
+
+        <div class="history__timeline">
+
+
+            <!-- 01 -->
+
+            <article
+                class="timeline-item"
+                data-reveal
+            >
+
+                <span>
+                    01
+                </span>
+
+                <div>
+
+                    <small>
+                        EL INSTINTO
+                    </small>
+
+                    <h3>
+                        Todo comienza
+                        con una inquietud.
+                    </h3>
+
+                    <p>
+                        La sensación de que todavía
+                        existe algo por descubrir.
+                        Algo diferente.
+                        Algo que todavía no tiene nombre.
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <!-- 02 -->
+
+            <article
+                class="timeline-item"
+                data-reveal
+            >
+
+                <span>
+                    02
+                </span>
+
+                <div>
+
+                    <small>
+                        LA VISIÓN
+                    </small>
+
+                    <h3>
+                        Imaginar un lugar
+                        que no existía.
+                    </h3>
+
+                    <p>
+                        Un territorio donde música,
+                        energía, libertad y conexión
+                        pudieran encontrarse
+                        en una misma experiencia.
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <!-- 03 -->
+
+            <article
+                class="timeline-item"
+                data-reveal
+            >
+
+                <span>
+                    03
+                </span>
+
+                <div>
+
+                    <small>
+                        LA MANADA
+                    </small>
+
+                    <h3>
+                        Encontrar a quienes
+                        comparten el instinto.
+                    </h3>
+
+                    <p>
+                        Porque ninguna gran historia
+                        se construye solo.
+                        Arcarius comienza a reunir
+                        personas que no quieren seguir
+                        el camino marcado.
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <!-- 04 -->
+
+            <article
+                class="timeline-item"
+                data-reveal
+            >
+
+                <span>
+                    04
+                </span>
+
+                <div>
+
+                    <small>
+                        ARCARIUS
+                    </small>
+
+                    <h3>
+                        El territorio
+                        cobra vida.
+                    </h3>
+
+                    <p>
+                        Y entonces comienza la experiencia.
+                        No como un evento.
+                        No como una fecha.
+                        Sino como el nacimiento
+                        de algo mucho más grande.
+                    </p>
+
+                </div>
+
+            </article>
+
+
+        </div>
+
+
+        <div
+            class="history__ending"
+            data-reveal
+        >
+
+            <span>
+                Y ESTA ES SOLO LA PRIMERA PÁGINA.
+            </span>
+
+            <strong>
+                LA HISTORIA
+                <em>
+                    LA ESCRIBES TÚ.
+                </em>
+            </strong>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+        <!-- =================================================
+     EVENTS — ARCARIUS CALENDAR
+     ================================================= -->
+
+<section
+    class="section events"
+    id="events"
+>
+
+    <div class="container">
+
+
+        <!-- =========================================
+             HEADER
+             ========================================= -->
+
+        <div class="section-heading">
+
+            <p>
+                EL TERRITORIO
+            </p>
+
+            <h2>
+
+                Elige tu
+
+                <span>
+                    próxima historia.
+                </span>
+
+            </h2>
+
+        </div>
+
+
+        <!-- =========================================
+             INTRO
+             ========================================= -->
+
+        <div class="events__intro">
+
+            <p class="events__statement">
+                Algunas noches se viven.
+                Otras se recuerdan.
+            </p>
+
+            <p class="events__description">
+                Descubre las próximas experiencias Arcarius,
+                elige una fecha y prepárate para entrar
+                en el territorio.
+            </p>
+
+        </div>
+
+
+        <!-- =========================================
+             CALENDAR
+             ========================================= -->
+
+        <div class="event-calendar">
+
+
+            <div class="calendar-header">
+
+                <button
+                    type="button"
+                    class="calendar-button"
+                    data-calendar-prev
+                    aria-label="Mes anterior"
+                >
+                    ←
+                </button>
+
+
+                <div class="calendar-title">
+
+                    <small>
+                        ARCARIUS
+                    </small>
+
+                    <h3 data-calendar-month>
+                        SEPTIEMBRE 2026
+                    </h3>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="calendar-button"
+                    data-calendar-next
+                    aria-label="Mes siguiente"
+                >
+                    →
+                </button>
+
+            </div>
+
+
+            <!-- =====================================
+                 DAYS
+                 ===================================== -->
+
+            <div class="calendar-weekdays">
+
+                <span>LUN</span>
+                <span>MAR</span>
+                <span>MIÉ</span>
+                <span>JUE</span>
+                <span>VIE</span>
+                <span>SÁB</span>
+                <span>DOM</span>
+
+            </div>
+
+
+            <!-- =====================================
+                 CALENDAR GRID
+                 ===================================== -->
+
+            <div
+                class="calendar-grid"
+                data-calendar-grid
+            ></div>
+
+
+        </div>
+
+
+        <!-- =========================================
+             SELECTED EVENT
+             ========================================= -->
+
+        <div
+            class="selected-event"
+            id="selected-event"
+        >
+
+            <div class="selected-event__empty">
+
+                <span>
+                    00
+                </span>
+
+                <div>
+
+                    <small>
+                        EXPLORA EL CALENDARIO
+                    </small>
+
+                    <h3>
+                        Tu próxima experiencia
+                        comienza con una fecha.
+                    </h3>
+
+                    <p>
+                        Selecciona un día para descubrir
+                        lo que Arcarius tiene preparado.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================================
+             FOOTER MESSAGE
+             ========================================= -->
+
+        <div
+            class="events__closing"
+            data-reveal
+        >
+
+            <span>
+                EL TERRITORIO TE ESPERA.
+            </span>
+
+            <strong>
+                Nos vemos
+                <em>
+                    dentro.
+                </em>
+            </strong>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+        <!-- =================================================
+     ARTISTAS — CARTEL
+     ================================================= -->
+
+<section
+    class="section artists"
+    id="artists"
+>
+
+    <div class="container">
+
+
+        <div class="section-heading">
+
+            <p>
+                EL CARTEL
+            </p>
+
+            <h2>
+
+                Los
+
+                <span>
+                    artistas.
+                </span>
+
+            </h2>
+
+        </div>
+
+
+        <div class="artists__intro">
+
+            <p class="artists__statement">
+                Diferentes sonidos.
+                Una misma energía.
+            </p>
+
+            <p class="artists__description">
+                Los artistas que darán forma al territorio.
+                Una selección creada para construir una noche
+                que no se parezca a ninguna otra.
+            </p>
+
+        </div>
+
+
+        <div
+            class="artists__list"
+            id="artists-list"
+        >
+
+
+            <!-- ARTISTA 01 -->
+
+            <article
+                class="artist-card"
+                data-reveal
+                data-tilt
+            >
+
+                <div class="artist-card__image">
+
+                    <div class="media-placeholder">
+                        ARTISTA 01
+                    </div>
+
+                </div>
+
+
+                <div class="artist-card__content">
+
+                    <span>
+                        01
+                    </span>
+
+                    <div>
+
+                        <small>
+                            ARTISTA PRINCIPAL
+                        </small>
+
+                        <h3>
+                            Nombre del artista
+                        </h3>
+
+                        <p>
+                            ARTISTA / DJ
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- ARTISTA 02 -->
+
+            <article
+                class="artist-card"
+                data-reveal
+                data-tilt
+            >
+
+                <div class="artist-card__image">
+
+                    <div class="media-placeholder">
+                        ARTISTA 02
+                    </div>
+
+                </div>
+
+
+                <div class="artist-card__content">
+
+                    <span>
+                        02
+                    </span>
+
+                    <div>
+
+                        <small>
+                            PRESENTACIÓN EN VIVO
+                        </small>
+
+                        <h3>
+                            Nombre del artista
+                        </h3>
+
+                        <p>
+                            ARTISTA / PRODUCTOR
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- ARTISTA 03 -->
+
+            <article
+                class="artist-card"
+                data-reveal
+                data-tilt
+            >
+
+                <div class="artist-card__image">
+
+                    <div class="media-placeholder">
+                        ARTISTA 03
+                    </div>
+
+                </div>
+
+
+                <div class="artist-card__content">
+
+                    <span>
+                        03
+                    </span>
+
+                    <div>
+
+                        <small>
+                            PRESENTACIÓN DJ
+                        </small>
+
+                        <h3>
+                            Nombre del artista
+                        </h3>
+
+                        <p>
+                            DJ / PRODUCTOR
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- ARTISTA 04 -->
+
+            <article
+                class="artist-card"
+                data-reveal
+                data-tilt
+            >
+
+                <div class="artist-card__image">
+
+                    <div class="media-placeholder">
+                        ARTISTA 04
+                    </div>
+
+                </div>
+
+
+                <div class="artist-card__content">
+
+                    <span>
+                        04
+                    </span>
+
+                    <div>
+
+                        <small>
+                            INVITADO ESPECIAL
+                        </small>
+
+                        <h3>
+                            Nombre del artista
+                        </h3>
+
+                        <p>
+                            ARTISTA / DJ
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+        </div>
+
+
+        <div
+            class="artists__closing"
+            data-reveal
+        >
+
+            <span>
+                MÁS POR DESCUBRIR.
+            </span>
+
+            <strong>
+                La manada
+                <em>
+                    apenas comienza.
+                </em>
+            </strong>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+        <!-- =================================================
+     GALERÍA — ARCHIVO VISUAL
+     ================================================= -->
+
+<section
+    class="section gallery"
+    id="gallery"
+>
+
+    <div class="container">
+
+
+        <!-- ENCABEZADO -->
+
+        <div class="section-heading">
+
+            <p>
+                ARCHIVO VISUAL
+            </p>
+
+            <h2>
+
+                Así se vive
+
+                <span>
+                    Arcarius.
+                </span>
+
+            </h2>
+
+        </div>
+
+
+        <!-- INTRO -->
+
+        <div class="gallery__intro">
+
+            <p class="gallery__statement">
+                Hay momentos que terminan.
+                Y otros que permanecen.
+            </p>
+
+            <p class="gallery__description">
+                Una colección de instantes, energía y
+                experiencias que forman parte del territorio.
+                Cada imagen guarda una historia.
+            </p>
+
+        </div>
+
+
+        <!-- GALERÍA -->
+
+        <div class="gallery__grid">
+
+
+            <!-- =================================================
+                 IMAGEN 01 — PRINCIPAL
+                 ================================================= -->
+
+            <figure
+                class="gallery-item gallery-item--hero"
+                data-reveal
+            >
+
+                <div class="gallery-item__media">
+
+                    <div class="media-placeholder">
+                        IMAGEN 01
+                    </div>
+
+                    <div class="gallery-item__overlay"></div>
+
+                    <div class="gallery-item__number">
+                        01
+                    </div>
+
+                    <figcaption class="gallery-item__caption">
+
+                        <span>
+                            EL COMIENZO
+                        </span>
+
+                        <strong>
+                            Donde todo cobra vida.
+                        </strong>
+
+                    </figcaption>
+
+                </div>
+
+            </figure>
+
+
+            <!-- =================================================
+                 IMAGEN 02
+                 ================================================= -->
+
+            <figure
+                class="gallery-item gallery-item--vertical"
+                data-reveal
+            >
+
+                <div class="gallery-item__media">
+
+                    <div class="media-placeholder">
+                        IMAGEN 02
+                    </div>
+
+                    <div class="gallery-item__overlay"></div>
+
+                    <div class="gallery-item__number">
+                        02
+                    </div>
+
+                    <figcaption class="gallery-item__caption">
+
+                        <span>
+                            LA ENERGÍA
+                        </span>
+
+                        <strong>
+                            Siente el territorio.
+                        </strong>
+
+                    </figcaption>
+
+                </div>
+
+            </figure>
+
+
+            <!-- =================================================
+                 IMAGEN 03
+                 ================================================= -->
+
+            <figure
+                class="gallery-item gallery-item--vertical"
+                data-reveal
+            >
+
+                <div class="gallery-item__media">
+
+                    <div class="media-placeholder">
+                        IMAGEN 03
+                    </div>
+
+                    <div class="gallery-item__overlay"></div>
+
+                    <div class="gallery-item__number">
+                        03
+                    </div>
+
+                    <figcaption class="gallery-item__caption">
+
+                        <span>
+                            LA MANADA
+                        </span>
+
+                        <strong>
+                            Una misma frecuencia.
+                        </strong>
+
+                    </figcaption>
+
+                </div>
+
+            </figure>
+
+
+            <!-- =================================================
+                 IMAGEN 04 — PANORÁMICA
+                 ================================================= -->
+
+            <figure
+                class="gallery-item gallery-item--wide"
+                data-reveal
+            >
+
+                <div class="gallery-item__media">
+
+                    <div class="media-placeholder">
+                        IMAGEN 04
+                    </div>
+
+                    <div class="gallery-item__overlay"></div>
+
+                    <div class="gallery-item__number">
+                        04
+                    </div>
+
+                    <figcaption class="gallery-item__caption">
+
+                        <span>
+                            EL MOMENTO
+                        </span>
+
+                        <strong>
+                            La noche que se convierte en historia.
+                        </strong>
+
+                    </figcaption>
+
+                </div>
+
+            </figure>
+
+
+        </div>
+
+
+        <!-- CIERRE -->
+
+        <div
+            class="gallery__closing"
+            data-reveal
+        >
+
+            <span>
+                CADA NOCHE DEJA UNA HUELLA.
+            </span>
+
+            <strong>
+
+                Esto no se
+
+                <em>
+                    cuenta.
+                </em>
+
+                <br>
+
+                Se vive.
+
+            </strong>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+        <!-- =================================================
+     TICKETS — PASE AL TERRITORIO
+     ================================================= -->
+
+<section
+    class="section tickets"
+    id="tickets"
+>
+
+    <div class="container">
+
+
+        <!-- ENCABEZADO -->
+
+        <div class="section-heading">
+
+            <p>
+                ACCESO ARCARIUS
+            </p>
+
+            <h2>
+
+                Tu entrada
+
+                <span>
+                    al territorio.
+                </span>
+
+            </h2>
+
+            <p>
+                Asegura tu lugar en la experiencia Arcarius.
+            </p>
+
+        </div>
+
+
+        <!-- TARJETA -->
+
+        <article
+            class="ticket-card"
+            data-reveal
+            data-tilt
+        >
+
+
+            <!-- PARTE SUPERIOR -->
+
+            <div class="ticket-card__top">
+
+                <span>
+                    ARCARIUS FEST
+                </span>
+
+                <span>
+                    2026
+                </span>
+
+            </div>
+
+
+            <!-- CONTENIDO PRINCIPAL -->
+
+            <div class="ticket-card__main">
+
+                <small>
+                    PASE DE ACCESO
+                </small>
+
+                <h3>
+                    Pase Leyenda
+                </h3>
+
+                <p class="ticket-card__subtitle">
+                    La noche comienza cuando decides entrar.
+                </p>
+
+
+                <div class="ticket-price">
+
+                    <span class="ticket-price__currency">
+                        $
+                    </span>
+
+                    100.000
+
+                    <small>
+                        COP
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- DETALLES -->
+
+            <ul class="ticket-card__details">
+
+                <li>
+                    <span>01</span>
+                    Acceso al evento
+                </li>
+
+                <li>
+                    <span>02</span>
+                    Entrada oficial Arcarius Fest
+                </li>
+
+                <li>
+                    <span>03</span>
+                    Acceso mediante plataforma externa
+                </li>
+
+            </ul>
+
+
+            <!-- BOTÓN -->
+
+            <a
+                href="#"
+                class="button button--primary ticket-card__button"
+                data-ticket-external
+            >
+                Conseguir Pase Leyenda
+                <span>→</span>
+            </a>
+
+
+            <!-- SELLO -->
+
+            <div class="ticket-card__seal">
+
+                <span>
+                    ARCARIUS
+                </span>
+
+                <strong>
+                    A
+                </strong>
+
+                <small>
+                    2026
+                </small>
+
+            </div>
+
+
+        </article>
+
+
+        <!-- AVISO -->
+
+        <p class="tickets__notice">
+
+            La compra será procesada mediante
+            una plataforma externa de boletería.
+
+        </p>
+
+
+        <!-- CIERRE -->
+
+        <div
+            class="tickets__closing"
+            data-reveal
+        >
+
+            <span>
+                EL TERRITORIO TE ESPERA.
+            </span>
+
+            <strong>
+
+                No te quedes
+
+                <em>
+                    afuera.
+                </em>
+
+            </strong>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+       <!-- =================================================
+     CONTACTO — EL TERRITORIO CONTINÚA
+     ================================================= -->
+
+<section
+    class="section contact"
+    id="contact"
+>
+
+    <div class="container contact__container">
+
+
+        <div
+            class="contact__eyebrow"
+            data-reveal
+        >
+            <span></span>
+
+            <p>
+                EL TERRITORIO CONTINÚA
+            </p>
+
+            <span></span>
+        </div>
+
+
+        <h2 data-reveal>
+
+            La experiencia
+
+            <span>
+                comienza aquí.
+            </span>
+
+        </h2>
+
+
+        <p
+            class="contact__description"
+            data-reveal
+        >
+            Sigue la historia, descubre lo que viene
+            y mantente cerca de la manada.
+        </p>
+
+
+        <div
+            class="contact__actions"
+            data-reveal
+        >
+
+            <a
+                href="#"
+                class="button button--primary"
+            >
+                Instagram
+
+                <span>
+                    ↗
+                </span>
+            </a>
+
+            <a
+                href="#"
+                class="button button--secondary"
+            >
+                Contactar
+
+                <span>
+                    →
+                </span>
+            </a>
+
+        </div>
+
+
+        <div
+            class="contact__signature"
+            data-reveal
+        >
+
+            <span>
+                ARCARIUS FEST
+            </span>
+
+            <strong>
+                Nos vemos
+                <em>
+                    dentro.
+                </em>
+            </strong>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+    </main>
+
+
+    <!-- =====================================================
+     PIE DE PÁGINA — ARCARIUS FEST
+     ===================================================== -->
+
+<footer class="site-footer">
+
+    <div class="container">
+
+        <div class="site-footer__main">
+
+            <!-- MARCA -->
+
+            <div class="site-footer__brand">
+
+                <a
+                    href="#home"
+                    class="site-footer__logo"
+                >
+                    ARCARIUS
+                </a>
+
+                <p>
+                    MÚSICA • EXPERIENCIA • CULTURA
+                </p>
+
+                <span class="site-footer__brand-line"></span>
+
+                <small>
+                    El territorio continúa.
+                </small>
+
+            </div>
+
+
+            <!-- NAVEGACIÓN -->
+
+            <nav
+                class="site-footer__nav"
+                aria-label="Navegación del pie de página"
+            >
+
+                <span>
+                    EXPLORAR
+                </span>
+
+                <a href="#experience">
+                    La experiencia
+                </a>
+
+                <a href="#about">
+                    La esencia
+                </a>
+
+                <a href="#history">
+                    El origen
+                </a>
+
+                <a href="#events">
+                    Eventos
+                </a>
+
+                <a href="#artists">
+                    Artistas
+                </a>
+
+                <a href="#gallery">
+                    Galería
+                </a>
+
+                <a href="#tickets">
+                    Acceso
+                </a>
+
+            </nav>
+
+
+            <!-- REDES -->
+
+            <div class="site-footer__social">
+
+                <span>
+                    SÍGUENOS
+                </span>
+
+                <a href="#">
+                    Instagram
+                    <small>↗</small>
+                </a>
+
+                <a href="#">
+                    TikTok
+                    <small>↗</small>
+                </a>
+
+                <a href="#">
+                    YouTube
+                    <small>↗</small>
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- FRASE FINAL -->
+
+        <div class="site-footer__statement">
+
+            <span>
+                ARCARIUS FEST
+            </span>
+
+            <strong>
+                Nos vemos
+                <em>
+                    dentro.
+                </em>
+            </strong>
+
+        </div>
+
+
+        <!-- PARTE INFERIOR -->
+
+        <div class="site-footer__bottom">
+
+            <span>
+                © <span data-current-year>2026</span>
+                ARCARIUS FEST
+            </span>
+
+            <span>
+                TODOS LOS DERECHOS RESERVADOS
+            </span>
+
+            <a href="#home">
+                VOLVER ARRIBA ↑
+            </a>
+
+        </div>
+
+    </div>
+
+</footer>
+
+    <!-- =====================================================
+         JAVASCRIPT
+         ===================================================== -->
+
+    <script
+        src="js/app.js"
+        defer
+    ></script>
+
+
+</body>
+
+</html>
