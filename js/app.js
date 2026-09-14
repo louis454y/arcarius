@@ -1,3 +1,4 @@
+
 /* ============================================================
    ARCARIUS FEST
    APP.JS
@@ -17,37 +18,40 @@ const CONFIG = {
 
         body: document.body,
 
+        /* PRELOADER */
         preloader: '#preloader',
 
+        /* HEADER */
         header: '#site-header',
-
         menuToggle: '#menu-toggle',
-
         mobileMenu: '#mobile-menu',
-
         menuClose: '[data-menu-close]',
-
         menuLinks: '[data-menu-link]',
-
         navLinks: '.nav-link',
 
+        /* GLOBAL REVEAL */
         reveal: '[data-reveal]',
-
         tilt: '[data-tilt]',
 
+        /* CALENDAR */
         calendarGrid: '[data-calendar-grid]',
-
         calendarMonth: '[data-calendar-month]',
-
         calendarPrev: '[data-calendar-prev]',
-
         calendarNext: '[data-calendar-next]',
-
         selectedEvent: '#selected-event',
 
+        /* FOOTER */
         currentYear: '[data-current-year]',
 
-        ticket: '[data-ticket-external]'
+        /* TICKETS */
+        ticket: '[data-ticket-external]',
+
+        /* HERO */
+        hero: '#home',
+        heroVideo: '.hero__video',
+        heroReveal: '[data-hero-reveal]',
+        heroTitle: '[data-hero-title]',
+        heroLines: '[data-hero-line]'
 
     },
 
@@ -68,7 +72,11 @@ const CONFIG = {
 
         active: 'is-active',
 
-        modal: 'modal-open'
+        modal: 'modal-open',
+
+        heroEntering: 'is-entering',
+
+        heroEntered: 'is-entered'
 
     }
 
@@ -77,36 +85,87 @@ const CONFIG = {
 
 /* ============================================================
    INIT
+   ORDEN GENERAL DEL SITIO
    ============================================================ */
 
 document.addEventListener(
     'DOMContentLoaded',
     () => {
 
+        /*
+         * Estado inicial.
+         */
+
         document.body.classList.add(
             CONFIG.classes.loading
         );
 
 
+        /*
+         * 01 — PRELOADER
+         */
+
         initPreloader();
+
+
+        /*
+         * 02 — HEADER
+         */
 
         initHeader();
 
+
+        /*
+         * 03 — HERO
+         */
+
+        initHeroExperience();
+
+        initHeroVideo();
+
+
+        /*
+         * 04 — MENÚ
+         */
+
         initMobileMenu();
 
+
+        /*
+         * 05 — NAVEGACIÓN
+         */
+
         initSmoothScroll();
+
+
+        /*
+         * 06 — EXPERIENCIA / SECCIONES
+         */
 
         initScrollReveal();
 
         initTiltCards();
 
+
+        /*
+         * 07 — EVENTOS
+         */
+
         initCalendar();
+
+
+        /*
+         * 08 — TICKETS
+         */
 
         initTicket();
 
-        initCurrentYear();
 
-        initHeroVideo();
+        /*
+         * 09 — FOOTER
+         */
+
+        initCurrentYear();
 
     }
 );
@@ -114,6 +173,7 @@ document.addEventListener(
 
 /* ============================================================
    PRELOADER
+   APERTURA DEL TERRITORIO
    ============================================================ */
 
 function initPreloader() {
@@ -124,91 +184,284 @@ function initPreloader() {
         );
 
 
+    /*
+     * Si no existe preloader,
+     * continuamos directamente
+     * con el sitio.
+     */
+
     if (!preloader) {
 
         document.body.classList.remove(
             CONFIG.classes.loading
         );
 
+        document.body.classList.add(
+            CONFIG.classes.loaded
+        );
+
+
+        document.dispatchEvent(
+            new CustomEvent(
+                'arcarius:territory-open'
+            )
+        );
+
+
         return;
 
     }
+
+
+    const percentage =
+        preloader.querySelector(
+            '[data-preloader-percent]'
+        );
+
+
+    const progress =
+        preloader.querySelector(
+            '.preloader__progress'
+        );
+
+
+    /*
+     * Duración total:
+     *
+     * 5 segundos.
+     */
+
+    const duration =
+        5000;
 
 
     const start =
         performance.now();
 
 
-    const minimumTime =
-        1000;
+    let completed =
+        false;
 
 
-    const finish = () => {
+    /*
+     * Curva de progreso.
+     *
+     * Comienza suave,
+     * acelera en el centro
+     * y desacelera al final.
+     */
 
-        const elapsed =
-            performance.now() - start;
+    const easeProgress =
+        (value) => {
+
+            return (
+                1 -
+                Math.pow(
+                    1 - value,
+                    1.45
+                )
+            );
+
+        };
 
 
-        const delay =
-            Math.max(
-                0,
-                minimumTime - elapsed
+    /*
+     * Actualizar contador
+     * y barra.
+     */
+
+    const updateProgress =
+        (value) => {
+
+            const safeValue =
+                Math.min(
+                    100,
+                    Math.max(
+                        1,
+                        value
+                    )
+                );
+
+
+            const rounded =
+                Math.floor(
+                    safeValue
+                );
+
+
+            if (percentage) {
+
+                percentage.textContent =
+                    String(
+                        rounded
+                    ).padStart(
+                        2,
+                        '0'
+                    );
+
+            }
+
+
+            if (progress) {
+
+                progress.style.width =
+                    `${safeValue}%`;
+
+            }
+
+        };
+
+
+    /*
+     * APERTURA
+     */
+
+    const openTerritory =
+        () => {
+
+            if (completed) {
+                return;
+            }
+
+
+            completed = true;
+
+
+            updateProgress(
+                100
             );
 
 
-        setTimeout(
-            () => {
+            /*
+             * Pequeña pausa
+             * después del 100%.
+             */
 
-                preloader.classList.add(
-                    CONFIG.classes.hidden
+            setTimeout(
+                () => {
+
+                    preloader.classList.add(
+                        'is-opening'
+                    );
+
+                },
+                180
+            );
+
+
+            /*
+             * El territorio se abre.
+             *
+             * En este momento
+             * avisamos al Hero.
+             */
+
+            setTimeout(
+                () => {
+
+                    preloader.classList.add(
+                        CONFIG.classes.hidden
+                    );
+
+
+                    document.body.classList.remove(
+                        CONFIG.classes.loading
+                    );
+
+
+                    document.body.classList.add(
+                        CONFIG.classes.loaded
+                    );
+
+
+                    document.dispatchEvent(
+                        new CustomEvent(
+                            'arcarius:territory-open'
+                        )
+                    );
+
+
+                },
+                850
+            );
+
+
+            /*
+             * Limpieza definitiva.
+             */
+
+            setTimeout(
+                () => {
+
+                    preloader.style.display =
+                        'none';
+
+                },
+                1800
+            );
+
+        };
+
+
+    /*
+     * ANIMACIÓN DEL CONTADOR
+     */
+
+    const animate =
+        (now) => {
+
+            const elapsed =
+                now - start;
+
+
+            const rawProgress =
+                Math.min(
+                    elapsed / duration,
+                    1
                 );
 
 
-                document.body.classList.remove(
-                    CONFIG.classes.loading
+            const smoothProgress =
+                easeProgress(
+                    rawProgress
                 );
 
 
-                document.body.classList.add(
-                    CONFIG.classes.loaded
+            updateProgress(
+                smoothProgress * 100
+            );
+
+
+            if (
+                rawProgress <
+                1
+            ) {
+
+                requestAnimationFrame(
+                    animate
                 );
 
+            } else {
 
-                setTimeout(
-                    () => {
+                openTerritory();
 
-                        preloader.style.display =
-                            'none';
-
-                    },
-                    900
-                );
-
-            },
-            delay
-        );
-
-    };
-
-
-    if (
-        document.readyState ===
-        'complete'
-    ) {
-
-        finish();
-
-    } else {
-
-        window.addEventListener(
-            'load',
-            finish,
-            {
-                once: true
             }
-        );
 
-    }
+        };
+
+
+    /*
+     * Comenzamos en 01%.
+     */
+
+    updateProgress(
+        1
+    );
+
+
+    requestAnimationFrame(
+        animate
+    );
 
 }
 
@@ -225,7 +478,9 @@ function initHeader() {
         );
 
 
-    if (!header) return;
+    if (!header) {
+        return;
+    }
 
 
     const update =
@@ -265,6 +520,223 @@ function initHeader() {
 
 
 /* ============================================================
+   HERO
+   ENTRADA CINEMATOGRÁFICA
+   ============================================================ */
+
+function initHeroExperience() {
+
+    const hero =
+        document.querySelector(
+            CONFIG.selectors.hero
+        );
+
+
+    if (!hero) {
+        return;
+    }
+
+
+    /*
+     * El Hero permanece preparado
+     * mientras el territorio está
+     * cargando.
+     */
+
+    hero.classList.add(
+        CONFIG.classes.heroEntering
+    );
+
+
+    /*
+     * Cuando el preloader termina,
+     * liberamos el Hero.
+     */
+
+    document.addEventListener(
+        'arcarius:territory-open',
+        () => {
+
+            revealHero(
+                hero
+            );
+
+        },
+        {
+            once: true
+        }
+    );
+
+
+    /*
+     * Seguridad:
+     *
+     * Si el preloader no existe
+     * y el body ya está cargado,
+     * mostramos el Hero.
+     */
+
+    if (
+        document.body.classList.contains(
+            CONFIG.classes.loaded
+        )
+    ) {
+
+        revealHero(
+            hero
+        );
+
+    }
+
+}
+
+
+/*
+ * Revelar Hero.
+ */
+
+function revealHero(hero) {
+
+    if (!hero) {
+        return;
+    }
+
+
+    if (
+        hero.classList.contains(
+            CONFIG.classes.heroEntered
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    hero.classList.add(
+        CONFIG.classes.heroEntered
+    );
+
+
+    /*
+     * Dejamos que el CSS controle
+     * la coreografía visual.
+     *
+     * El JS únicamente marca
+     * el momento de entrada.
+     */
+
+    const revealElements =
+        hero.querySelectorAll(
+            CONFIG.selectors.heroReveal
+        );
+
+
+    if (
+        prefersReducedMotion()
+    ) {
+
+        revealElements.forEach(
+            element => {
+
+                element.classList.add(
+                    CONFIG.classes.visible
+                );
+
+            }
+        );
+
+        return;
+
+    }
+
+
+    /*
+     * Entrada escalonada de elementos.
+     */
+
+    revealElements.forEach(
+        (element, index) => {
+
+            setTimeout(
+                () => {
+
+                    element.classList.add(
+                        CONFIG.classes.visible
+                    );
+
+                },
+                150 + (index * 110)
+            );
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   HERO VIDEO
+   ============================================================ */
+
+function initHeroVideo() {
+
+    const video =
+        document.querySelector(
+            CONFIG.selectors.heroVideo
+        );
+
+
+    if (!video) {
+        return;
+    }
+
+
+    video.muted =
+        true;
+
+
+    video.playsInline =
+        true;
+
+
+    /*
+     * Si el usuario solicita
+     * menos movimiento,
+     * detenemos el video.
+     */
+
+    if (
+        prefersReducedMotion()
+    ) {
+
+        video.pause();
+
+        return;
+
+    }
+
+
+    /*
+     * Intentamos reproducirlo.
+     */
+
+    video.play()
+        .catch(
+            () => {
+
+                /*
+                 * Algunos navegadores
+                 * pueden bloquear autoplay.
+                 */
+
+            }
+        );
+
+}
+
+
+/* ============================================================
    MOBILE MENU
    ============================================================ */
 
@@ -282,7 +754,14 @@ function initMobileMenu() {
         );
 
 
-    if (!toggle || !menu) return;
+    if (
+        !toggle ||
+        !menu
+    ) {
+
+        return;
+
+    }
 
 
     const closeElements =
@@ -297,67 +776,81 @@ function initMobileMenu() {
         );
 
 
-    const openMenu = () => {
+    /*
+     * ABRIR MENÚ
+     */
 
-        menu.classList.add(
-            CONFIG.classes.open
-        );
+    const openMenu =
+        () => {
 
-
-        toggle.classList.add(
-            CONFIG.classes.open
-        );
-
-
-        toggle.setAttribute(
-            'aria-expanded',
-            'true'
-        );
+            menu.classList.add(
+                CONFIG.classes.open
+            );
 
 
-        menu.setAttribute(
-            'aria-hidden',
-            'false'
-        );
+            toggle.classList.add(
+                CONFIG.classes.open
+            );
 
 
-        document.body.classList.add(
-            CONFIG.classes.modal
-        );
-
-    };
-
-
-    const closeMenu = () => {
-
-        menu.classList.remove(
-            CONFIG.classes.open
-        );
+            toggle.setAttribute(
+                'aria-expanded',
+                'true'
+            );
 
 
-        toggle.classList.remove(
-            CONFIG.classes.open
-        );
+            menu.setAttribute(
+                'aria-hidden',
+                'false'
+            );
 
 
-        toggle.setAttribute(
-            'aria-expanded',
-            'false'
-        );
+            document.body.classList.add(
+                CONFIG.classes.modal
+            );
+
+        };
 
 
-        menu.setAttribute(
-            'aria-hidden',
-            'true'
-        );
+    /*
+     * CERRAR MENÚ
+     */
+
+    const closeMenu =
+        () => {
+
+            menu.classList.remove(
+                CONFIG.classes.open
+            );
 
 
-        document.body.classList.remove(
-            CONFIG.classes.modal
-        );
+            toggle.classList.remove(
+                CONFIG.classes.open
+            );
 
-    };
 
+            toggle.setAttribute(
+                'aria-expanded',
+                'false'
+            );
+
+
+            menu.setAttribute(
+                'aria-hidden',
+                'true'
+            );
+
+
+            document.body.classList.remove(
+                CONFIG.classes.modal
+            );
+
+        };
+
+
+    /*
+     * BOTÓN PRINCIPAL
+     */
 
     toggle.addEventListener(
         'click',
@@ -381,6 +874,10 @@ function initMobileMenu() {
     );
 
 
+    /*
+     * ELEMENTOS DE CIERRE
+     */
+
     closeElements.forEach(
         element => {
 
@@ -393,6 +890,10 @@ function initMobileMenu() {
     );
 
 
+    /*
+     * LINKS DEL MENÚ
+     */
+
     menuLinks.forEach(
         link => {
 
@@ -404,6 +905,10 @@ function initMobileMenu() {
         }
     );
 
+
+    /*
+     * ESCAPE
+     */
 
     document.addEventListener(
         'keydown',
@@ -420,6 +925,10 @@ function initMobileMenu() {
         }
     );
 
+
+    /*
+     * DESKTOP
+     */
 
     window.addEventListener(
         'resize',
@@ -503,7 +1012,8 @@ function initSmoothScroll() {
 
 
                     const top =
-                        target.getBoundingClientRect()
+                        target
+                            .getBoundingClientRect()
                             .top
                         +
                         window.scrollY
@@ -513,10 +1023,11 @@ function initSmoothScroll() {
 
                     window.scrollTo({
 
-                        top: Math.max(
-                            0,
-                            top
-                        ),
+                        top:
+                            Math.max(
+                                0,
+                                top
+                            ),
 
                         behavior:
                             prefersReducedMotion()
@@ -546,8 +1057,14 @@ function initScrollReveal() {
         );
 
 
-    if (!elements.length) return;
+    if (!elements.length) {
+        return;
+    }
 
+
+    /*
+     * Reduced Motion.
+     */
 
     if (
         prefersReducedMotion()
@@ -567,6 +1084,10 @@ function initScrollReveal() {
 
     }
 
+
+    /*
+     * Intersection Observer.
+     */
 
     const observer =
         new IntersectionObserver(
@@ -599,7 +1120,8 @@ function initScrollReveal() {
             },
             {
 
-                threshold: 0.12,
+                threshold:
+                    0.12,
 
                 rootMargin:
                     '0px 0px -50px 0px'
@@ -645,9 +1167,18 @@ function initTiltCards() {
     cards.forEach(
         card => {
 
+            /*
+             * Movimiento del cursor.
+             */
+
             card.addEventListener(
                 'pointermove',
                 event => {
+
+                    /*
+                     * En móvil no aplicamos
+                     * el efecto 3D.
+                     */
 
                     if (
                         window.innerWidth < 768
@@ -681,13 +1212,17 @@ function initTiltCards() {
 
 
                     const rotateX =
-                        ((y - centerY) /
-                        centerY) * -3;
+                        (
+                            (y - centerY) /
+                            centerY
+                        ) * -3;
 
 
                     const rotateY =
-                        ((x - centerX) /
-                        centerX) * 3;
+                        (
+                            (x - centerX) /
+                            centerX
+                        ) * 3;
 
 
                     card.style.transform =
@@ -699,6 +1234,11 @@ function initTiltCards() {
                 }
             );
 
+
+            /*
+             * Regresar a posición
+             * original.
+             */
 
             card.addEventListener(
                 'pointerleave',
@@ -716,298 +1256,736 @@ function initTiltCards() {
 }
 
 
+
 /* ============================================================
-   CALENDAR
+   EVENTOS
+   ARCARIUS — THE GATEWAY
    ============================================================ */
 
-function initCalendar() {
+function initEventsGateway() {
 
-    const grid =
+    const eventCard =
         document.querySelector(
-            CONFIG.selectors.calendarGrid
+            '[data-event-card]'
         );
 
-
-    const monthLabel =
+    const emptyState =
         document.querySelector(
-            CONFIG.selectors.calendarMonth
+            '[data-events-empty]'
         );
 
-
-    const previous =
-        document.querySelector(
-            CONFIG.selectors.calendarPrev
+    if (!eventCard) {
+        console.warn(
+            'ARCARIUS: No se encontró [data-event-card].'
         );
-
-
-    const next =
-        document.querySelector(
-            CONFIG.selectors.calendarNext
-        );
-
-
-    const selectedEvent =
-        document.querySelector(
-            CONFIG.selectors.selectedEvent
-        );
-
-
-    if (
-        !grid ||
-        !monthLabel
-    ) {
 
         return;
-
     }
 
 
-    let currentDate =
-        new Date(
-            2026,
-            8,
-            1
+    /* ========================================================
+       EVENTOS ARCARIUS — EDITAR AQUÍ
+       ======================================================== */
+
+    const events = [
+
+        {
+            date:
+                '2026-10-24',
+
+            title:
+                'ARCARIUS FEST',
+
+            location:
+                'PUERTO COLOMBIA',
+
+            description:
+                'Una noche que no se repite. El territorio vuelve a abrirse.',
+
+            image:
+                'assets/imagenes/eventos/arcarius-001.jpg',
+
+            code:
+                'ARC-001'
+        },
+
+
+        {
+            date:
+                '2026-12-20',
+
+            title:
+                'ARCARIUS — EDICIÓN ESPECIAL',
+
+            location:
+                'BARRANQUILLA',
+
+            description:
+                'Una nueva experiencia está a punto de comenzar.',
+
+            image:
+                'assets/images/events/arcarius-001.jpg',
+
+            code:
+                'ARC-002'
+        }
+
+    ];
+
+
+    /* ========================================================
+       ELEMENTOS
+       ======================================================== */
+
+    const eventDay =
+        eventCard.querySelector(
+            '[data-event-day]'
+        );
+
+    const eventMonth =
+        eventCard.querySelector(
+            '[data-event-month]'
+        );
+
+    const eventYear =
+        eventCard.querySelector(
+            '[data-event-year]'
+        );
+
+    const eventTitle =
+        eventCard.querySelector(
+            '[data-event-title]'
+        );
+
+    const eventLocation =
+        eventCard.querySelector(
+            '[data-event-location]'
+        );
+
+    const eventDescription =
+        eventCard.querySelector(
+            '[data-event-description]'
+        );
+
+    const eventIndex =
+        eventCard.querySelector(
+            '[data-event-index]'
+        );
+
+    const eventCode =
+        eventCard.querySelector(
+            '[data-event-code]'
+        );
+
+    const eventVisual =
+        eventCard.querySelector(
+            '[data-event-visual]'
+        );
+
+    const eventLink =
+        eventCard.querySelector(
+            '[data-event-link]'
         );
 
 
-    /*
-     * EVENTOS REALES
-     *
-     * Cuando tengamos las fechas oficiales
-     * se colocarán aquí.
-     *
-     * Ejemplo:
-     *
-     * {
-     *   date: '2026-10-15',
-     *   title: 'Arcarius Fest',
-     *   location: '...',
-     *   description: '...'
-     * }
-     */
+    /* ========================================================
+       FECHA LOCAL
+       ======================================================== */
 
-    const events = [];
+    function createLocalDate(
+        dateString
+    ) {
+
+        const [
+            year,
+            month,
+            day
+        ] =
+            dateString
+                .split('-')
+                .map(Number);
+
+        return new Date(
+            year,
+            month - 1,
+            day
+        );
+    }
 
 
-    function renderCalendar() {
+    /* ========================================================
+       FORMATEAR FECHA
+       ======================================================== */
 
-        grid.innerHTML = '';
+    function getDateParts(
+        dateString
+    ) {
 
-
-        const year =
-            currentDate.getFullYear();
-
+        const date =
+            createLocalDate(
+                dateString
+            );
 
         const month =
-            currentDate.getMonth();
+            date
+                .toLocaleString(
+                    'es-ES',
+                    {
+                        month: 'short'
+                    }
+                )
+                .replace(
+                    '.',
+                    ''
+                )
+                .toUpperCase();
+
+        return {
+
+            day:
+                String(
+                    date.getDate()
+                ).padStart(
+                    2,
+                    '0'
+                ),
+
+            month,
+
+            year:
+                String(
+                    date.getFullYear()
+                )
+
+        };
+    }
 
 
-        const firstDay =
-            new Date(
-                year,
-                month,
-                1
+    /* ========================================================
+       IMAGEN DEL EVENTO
+       ======================================================== */
+
+    function loadEventImage(
+        imagePath
+    ) {
+
+        if (!eventVisual) {
+
+            console.warn(
+                'ARCARIUS: No se encontró [data-event-visual].'
             );
 
-
-        const lastDay =
-            new Date(
-                year,
-                month + 1,
-                0
-            );
-
-
-        const startDay =
-            firstDay.getDay();
-
-
-        const totalDays =
-            lastDay.getDate();
-
-
-        const monthName =
-            currentDate.toLocaleString(
-                'en-US',
-                {
-                    month: 'long'
-                }
-            );
-
-
-        monthLabel.textContent =
-            `${monthName.toUpperCase()} ${year}`;
-
-
-        /*
-         * Días vacíos
-         */
-
-        for (
-            let i = 0;
-            i < startDay;
-            i++
-        ) {
-
-            const empty =
-                document.createElement(
-                    'div'
-                );
-
-
-            empty.className =
-                'calendar-day calendar-day--empty';
-
-
-            grid.appendChild(
-                empty
-            );
-
+            return;
         }
 
 
-        /*
-         * Días
-         */
+        /* ----------------------------------------------------
+           Limpiar imagen anterior
+           ---------------------------------------------------- */
 
-        for (
-            let day = 1;
-            day <= totalDays;
-            day++
+        eventVisual.style.backgroundImage =
+            '';
+
+
+        eventVisual.classList.remove(
+            'has-event-image'
+        );
+
+
+        /* ----------------------------------------------------
+           Evento sin imagen
+           ---------------------------------------------------- */
+
+        if (
+            !imagePath ||
+            typeof imagePath !== 'string'
         ) {
 
-            const button =
-                document.createElement(
-                    'button'
+            console.info(
+                'ARCARIUS: Este evento no tiene imagen.'
+            );
+
+            return;
+        }
+
+
+        /* ----------------------------------------------------
+           Convertir la ruta en URL absoluta
+           ---------------------------------------------------- */
+
+        let imageURL;
+
+        try {
+
+            imageURL =
+                new URL(
+                    imagePath,
+                    document.baseURI
+                ).href;
+
+        } catch (error) {
+
+            console.error(
+                'ARCARIUS: Ruta de imagen inválida:',
+                imagePath,
+                error
+            );
+
+            return;
+        }
+
+
+        console.log(
+            'ARCARIUS: Intentando cargar imagen:',
+            imageURL
+        );
+
+
+        /* ----------------------------------------------------
+           Precargar imagen
+           ---------------------------------------------------- */
+
+        const image =
+            new Image();
+
+
+        image.onload =
+            function () {
+
+                console.log(
+                    'ARCARIUS: Imagen cargada correctamente:',
+                    imageURL
                 );
 
 
-            button.type =
-                'button';
+                eventVisual.style.backgroundImage =
+                    `url("${imageURL}")`;
 
 
-            button.className =
-                'calendar-day';
+                eventVisual.classList.add(
+                    'has-event-image'
+                );
+
+            };
 
 
-            button.textContent =
-                day;
+        image.onerror =
+            function () {
 
-
-            const dateKey =
-                `${year}-${
-                    String(month + 1)
-                        .padStart(2, '0')
-                }-${
-                    String(day)
-                        .padStart(2, '0')
-                }`;
-
-
-            const event =
-                events.find(
-                    item =>
-                        item.date === dateKey
+                console.error(
+                    'ARCARIUS: NO se pudo cargar la imagen:',
+                    imageURL
                 );
 
 
-            if (event) {
+                eventVisual.style.backgroundImage =
+                    '';
 
-                button.classList.add(
-                    'is-event'
+
+                eventVisual.classList.remove(
+                    'has-event-image'
+                );
+
+            };
+
+
+        image.src =
+            imageURL;
+    }
+
+
+    /* ========================================================
+       MOSTRAR EVENTO
+       ======================================================== */
+
+    function showEvent(
+        event,
+        index
+    ) {
+
+        if (!event) {
+            return;
+        }
+
+
+        const date =
+            getDateParts(
+                event.date
+            );
+
+
+        /* ----------------------------------------------------
+           Animación de salida
+           ---------------------------------------------------- */
+
+        eventCard.classList.remove(
+            'is-visible'
+        );
+
+
+        eventCard.classList.add(
+            'is-changing'
+        );
+
+
+        /* ----------------------------------------------------
+           Cambiar contenido
+           ---------------------------------------------------- */
+
+        setTimeout(
+            function () {
+
+
+                /* Fecha */
+
+                if (eventDay) {
+
+                    eventDay.textContent =
+                        date.day;
+
+                }
+
+
+                if (eventMonth) {
+
+                    eventMonth.textContent =
+                        date.month;
+
+                }
+
+
+                if (eventYear) {
+
+                    eventYear.textContent =
+                        date.year;
+
+                }
+
+
+                /* Título */
+
+                if (eventTitle) {
+
+                    eventTitle.textContent =
+                        event.title || '';
+
+                }
+
+
+                /* Ubicación */
+
+                if (eventLocation) {
+
+                    eventLocation.textContent =
+                        event.location || '';
+
+                }
+
+
+                /* Descripción */
+
+                if (eventDescription) {
+
+                    eventDescription.textContent =
+                        event.description || '';
+
+                }
+
+
+                /* Índice */
+
+                if (eventIndex) {
+
+                    eventIndex.textContent =
+                        String(
+                            index + 1
+                        ).padStart(
+                            2,
+                            '0'
+                        );
+
+                }
+
+
+                /* Código */
+
+                if (eventCode) {
+
+                    eventCode.textContent =
+                        event.code ||
+                        `ARC-${
+                            String(
+                                index + 1
+                            ).padStart(
+                                3,
+                                '0'
+                            )
+                        }`;
+
+                }
+
+
+                /* ------------------------------------------------
+                   IMAGEN
+                   ------------------------------------------------ */
+
+                loadEventImage(
+                    event.image
                 );
 
 
-                button.setAttribute(
+                /* ------------------------------------------------
+                   BOTÓN
+                   ------------------------------------------------ */
+
+                if (eventLink) {
+
+                    eventLink.setAttribute(
+                        'aria-label',
+                        `Entrar al evento ${event.title || 'Arcarius'}`
+                    );
+
+                }
+
+
+                /* ------------------------------------------------
+                   ACCESIBILIDAD
+                   ------------------------------------------------ */
+
+                eventCard.setAttribute(
                     'aria-label',
-                    event.title
+                    `${event.title || 'Evento Arcarius'}, ${date.day} ${date.month} ${date.year}, ${event.location || ''}`
                 );
 
 
-                button.addEventListener(
-                    'click',
-                    () => {
+                /* ------------------------------------------------
+                   Animación de entrada
+                   ------------------------------------------------ */
 
-                        showEvent(
-                            event
+                eventCard.classList.remove(
+                    'is-changing'
+                );
+
+
+                requestAnimationFrame(
+                    function () {
+
+                        requestAnimationFrame(
+                            function () {
+
+                                eventCard.classList.add(
+                                    'is-visible'
+                                );
+
+                            }
                         );
 
                     }
                 );
 
+
+            },
+            220
+        );
+    }
+
+
+    /* ========================================================
+       ORDENAR EVENTOS
+       ======================================================== */
+
+    const sortedEvents =
+        [...events].sort(
+            function (
+                first,
+                second
+            ) {
+
+                return (
+                    createLocalDate(
+                        first.date
+                    ) -
+                    createLocalDate(
+                        second.date
+                    )
+                );
+
             }
+        );
 
 
-            grid.appendChild(
-                button
-            );
+    /* ========================================================
+       SIN EVENTOS
+       ======================================================== */
+
+    if (
+        sortedEvents.length === 0
+    ) {
+
+        eventCard.hidden =
+            true;
+
+
+        eventCard.classList.remove(
+            'is-visible'
+        );
+
+
+        if (emptyState) {
+
+            emptyState.hidden =
+                false;
 
         }
+
+
+        return;
+    }
+
+
+    /* ========================================================
+       EXISTEN EVENTOS
+       ======================================================== */
+
+    eventCard.hidden =
+        false;
+
+
+    if (emptyState) {
+
+        emptyState.hidden =
+            true;
 
     }
 
 
-    function showEvent(event) {
+    /* ========================================================
+       EVENTOS DISPONIBLES
+       ======================================================== */
 
-        if (!selectedEvent) {
+    window.ArcariusEvents =
+        sortedEvents;
+
+
+    let currentIndex =
+        0;
+
+
+    /* ========================================================
+       CAMBIAR EVENTO
+       ======================================================== */
+
+    function changeEvent(
+        direction
+    ) {
+
+        if (
+            sortedEvents.length <= 1
+        ) {
+
             return;
         }
 
 
-        selectedEvent.innerHTML = `
+        currentIndex +=
+            direction;
 
-            <strong>
-                ${escapeHTML(event.title)}
-            </strong>
 
-            <p>
-                ${escapeHTML(
-                    event.description || ''
-                )}
-            </p>
+        if (
+            currentIndex < 0
+        ) {
 
-            ${
-                event.location
-                    ? `<small>
-                        ${escapeHTML(event.location)}
-                       </small>`
-                    : ''
-            }
+            currentIndex =
+                sortedEvents.length - 1;
 
-        `;
+        }
+
+
+        if (
+            currentIndex >=
+            sortedEvents.length
+        ) {
+
+            currentIndex =
+                0;
+
+        }
+
+
+        showEvent(
+            sortedEvents[
+                currentIndex
+            ],
+            currentIndex
+        );
 
     }
 
 
-    previous?.addEventListener(
-        'click',
-        () => {
+    /* ========================================================
+       CONTROL PÚBLICO
+       ======================================================== */
 
-            currentDate.setMonth(
-                currentDate.getMonth() - 1
-            );
+    window.ArcariusEventGateway = {
 
-            renderCalendar();
+        next:
+            function () {
 
-        }
+                changeEvent(
+                    1
+                );
+
+            },
+
+
+        previous:
+            function () {
+
+                changeEvent(
+                    -1
+                );
+
+            },
+
+
+        goTo:
+            function (
+                index
+            ) {
+
+                if (
+                    index < 0 ||
+                    index >= sortedEvents.length
+                ) {
+
+                    return;
+                }
+
+
+                currentIndex =
+                    index;
+
+
+                showEvent(
+                    sortedEvents[
+                        currentIndex
+                    ],
+                    currentIndex
+                );
+
+            }
+
+    };
+
+
+    /* ========================================================
+       PRIMER EVENTO
+       ======================================================== */
+
+    showEvent(
+        sortedEvents[0],
+        0
     );
-
-
-    next?.addEventListener(
-        'click',
-        () => {
-
-            currentDate.setMonth(
-                currentDate.getMonth() + 1
-            );
-
-            renderCalendar();
-
-        }
-    );
-
-
-    renderCalendar();
 
 }
 
@@ -1024,11 +2002,14 @@ function initTicket() {
         );
 
 
-    if (!ticket) return;
+    if (!ticket) {
+        return;
+    }
 
 
     /*
-     * NO inventamos la plataforma.
+     * NO inventamos plataforma
+     * de boletería.
      *
      * Cuando tengas la URL real:
      *
@@ -1041,10 +2022,13 @@ function initTicket() {
         event => {
 
             if (
-                ticket.getAttribute('href') === '#'
+                ticket.getAttribute(
+                    'href'
+                ) === '#'
             ) {
 
                 event.preventDefault();
+
 
                 console.info(
                     'Arcarius Fest: falta configurar la URL oficial de boletería.'
@@ -1059,7 +2043,8 @@ function initTicket() {
 
 
 /* ============================================================
-   CURRENT YEAR
+   FOOTER
+   AÑO ACTUAL
    ============================================================ */
 
 function initCurrentYear() {
@@ -1088,52 +2073,6 @@ function initCurrentYear() {
 
 
 /* ============================================================
-   HERO VIDEO
-   ============================================================ */
-
-function initHeroVideo() {
-
-    const video =
-        document.querySelector(
-            '.hero__video'
-        );
-
-
-    if (!video) return;
-
-
-    video.muted = true;
-
-    video.playsInline = true;
-
-
-    if (
-        prefersReducedMotion()
-    ) {
-
-        video.pause();
-
-        return;
-
-    }
-
-
-    video.play()
-        .catch(
-            () => {
-
-                /*
-                 * Algunos navegadores
-                 * bloquean autoplay.
-                 */
-
-            }
-        );
-
-}
-
-
-/* ============================================================
    REDUCED MOTION
    ============================================================ */
 
@@ -1147,28 +2086,34 @@ function prefersReducedMotion() {
 
 
 /* ============================================================
-   SEGURIDAD — HTML
+   SEGURIDAD
+   HTML ESCAPING
    ============================================================ */
 
 function escapeHTML(value) {
 
     return String(value)
+
         .replace(
             /&/g,
             '&amp;'
         )
+
         .replace(
             /</g,
             '&lt;'
         )
+
         .replace(
             />/g,
             '&gt;'
         )
+
         .replace(
             /"/g,
             '&quot;'
         )
+
         .replace(
             /'/g,
             '&#039;'
@@ -1179,11 +2124,19 @@ function escapeHTML(value) {
 
 /* ============================================================
    ARCARIUS GLOBAL
+   API INTERNA
    ============================================================ */
 
 window.ArcariusFest = {
 
     prefersReducedMotion,
+
+
+    /*
+     * Cerrar menú móvil
+     * desde cualquier parte
+     * del sitio.
+     */
 
     closeMobileMenu() {
 
@@ -1199,7 +2152,9 @@ window.ArcariusFest = {
             );
 
 
-        if (!menu) return;
+        if (!menu) {
+            return;
+        }
 
 
         menu.classList.remove(
@@ -1233,6 +2188,10 @@ window.ArcariusFest = {
 };
 
 
+
 /* ============================================================
    END
    ============================================================ */
+
+
+
