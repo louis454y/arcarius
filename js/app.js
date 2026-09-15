@@ -3,6 +3,9 @@
    ARCARIUS FEST
    APP.JS
    PREMIUM / ELITE
+   NUEVO SISTEMA DE ARTISTAS
+   GALLERY — VISUAL ARCHIVE / ROOTS EXPERIENCE
+   MOBILE / ANDROID FIRST
    ============================================================ */
 
 'use strict';
@@ -16,67 +19,242 @@ const CONFIG = {
 
     selectors: {
 
-        body: document.body,
+        body:
+            document.body,
 
-        /* PRELOADER */
-        preloader: '#preloader',
 
-        /* HEADER */
-        header: '#site-header',
-        menuToggle: '#menu-toggle',
-        mobileMenu: '#mobile-menu',
-        menuClose: '[data-menu-close]',
-        menuLinks: '[data-menu-link]',
-        navLinks: '.nav-link',
+        /* ----------------------------------------------------
+           PRELOADER
+           ---------------------------------------------------- */
 
-        /* GLOBAL REVEAL */
-        reveal: '[data-reveal]',
-        tilt: '[data-tilt]',
+        preloader:
+            '#preloader',
 
-        /* CALENDAR */
-        calendarGrid: '[data-calendar-grid]',
-        calendarMonth: '[data-calendar-month]',
-        calendarPrev: '[data-calendar-prev]',
-        calendarNext: '[data-calendar-next]',
-        selectedEvent: '#selected-event',
 
-        /* FOOTER */
-        currentYear: '[data-current-year]',
+        /* ----------------------------------------------------
+           HEADER
+           ---------------------------------------------------- */
 
-        /* TICKETS */
-        ticket: '[data-ticket-external]',
+        header:
+            '#site-header',
 
-        /* HERO */
-        hero: '#home',
-        heroVideo: '.hero__video',
-        heroReveal: '[data-hero-reveal]',
-        heroTitle: '[data-hero-title]',
-        heroLines: '[data-hero-line]'
+        menuToggle:
+            '#menu-toggle',
+
+        mobileMenu:
+            '#mobile-menu',
+
+        menuClose:
+            '[data-menu-close]',
+
+        menuLinks:
+            '[data-menu-link]',
+
+        navLinks:
+            '.nav-link',
+
+
+        /* ----------------------------------------------------
+           GLOBAL REVEAL
+           ---------------------------------------------------- */
+
+        reveal:
+            '[data-reveal]',
+
+        tilt:
+            '[data-tilt]',
+
+
+        /* ----------------------------------------------------
+           FOOTER
+           ---------------------------------------------------- */
+
+        currentYear:
+            '[data-current-year]',
+
+
+        /* ----------------------------------------------------
+           TICKETS
+           ---------------------------------------------------- */
+
+        ticket:
+            '[data-ticket-external]',
+
+
+        /* ----------------------------------------------------
+           HERO
+           ---------------------------------------------------- */
+
+        hero:
+            '#home',
+
+        heroVideo:
+            '.hero__video',
+
+        heroReveal:
+            '[data-hero-reveal]',
+
+        heroTitle:
+            '[data-hero-title]',
+
+        heroLines:
+            '[data-hero-line]',
+
+
+        /* ----------------------------------------------------
+           ARTISTS
+           NUEVO SISTEMA
+           ---------------------------------------------------- */
+
+        artists:
+            '#artists',
+
+        artistScenes:
+            '.artist-scene',
+
+        artistMedia:
+            '.artist-scene__media',
+
+        artistImage:
+            '.artist-scene__image img',
+
+
+        /* ----------------------------------------------------
+           EVENTS
+           ---------------------------------------------------- */
+
+        eventCard:
+            '[data-event-card]',
+
+        eventsEmpty:
+            '[data-events-empty]',
+
+        eventNext:
+            '[data-event-next]',
+
+        eventPrevious:
+            '[data-event-prev]',
+
+        eventDay:
+            '[data-event-day]',
+
+        eventMonth:
+            '[data-event-month]',
+
+        eventYear:
+            '[data-event-year]',
+
+        eventTitle:
+            '[data-event-title]',
+
+        eventLocation:
+            '[data-event-location]',
+
+        eventDescription:
+            '[data-event-description]',
+
+        eventIndex:
+            '[data-event-index]',
+
+        eventCode:
+            '[data-event-code]',
+
+        eventVisual:
+            '[data-event-visual]',
+
+        eventLink:
+            '[data-event-link]',
+
+
+        /* ----------------------------------------------------
+           GALLERY
+           VISUAL ARCHIVE / ROOTS EXPERIENCE
+           ---------------------------------------------------- */
+
+        gallery:
+            '#gallery',
+
+        galleryItems:
+            '[data-gallery-item]',
+
+        galleryImages:
+            '.gallery-item__media img',
+
+        galleryRoots:
+            '.gallery-root',
+
+        galleryField:
+            '.gallery__field'
 
     },
 
 
     classes: {
 
-        open: 'is-open',
+        open:
+            'is-open',
 
-        hidden: 'is-hidden',
+        hidden:
+            'is-hidden',
 
-        loaded: 'is-loaded',
+        loaded:
+            'is-loaded',
 
-        loading: 'is-loading',
+        loading:
+            'is-loading',
 
-        visible: 'is-visible',
+        visible:
+            'is-visible',
 
-        scrolled: 'is-scrolled',
+        scrolled:
+            'is-scrolled',
 
-        active: 'is-active',
+        active:
+            'is-active',
 
-        modal: 'modal-open',
+        modal:
+            'modal-open',
 
-        heroEntering: 'is-entering',
+        changing:
+            'is-changing',
 
-        heroEntered: 'is-entered'
+        heroEntering:
+            'is-entering',
+
+        heroEntered:
+            'is-entered',
+
+        artistsActive:
+            'is-active',
+
+        artistLoaded:
+            'is-loaded',
+
+        artistError:
+            'is-error',
+
+        galleryLoaded:
+            'is-loaded',
+
+        galleryError:
+            'is-error',
+
+        galleryFocus:
+            'is-focus'
+
+    },
+
+
+    timings: {
+
+        preloader:
+            5000,
+
+        eventTransition:
+            220,
+
+        heroReveal:
+            110
 
     }
 
@@ -84,13 +262,64 @@ const CONFIG = {
 
 
 /* ============================================================
-   INIT
-   ORDEN GENERAL DEL SITIO
+   GLOBAL STATE
+   ============================================================ */
+
+const APP_STATE = {
+
+    initialized:
+        false,
+
+
+    artists: {
+
+        initialized:
+            false
+
+    },
+
+
+    events: {
+
+        initialized:
+            false,
+
+        currentIndex:
+            0
+
+    },
+
+
+    gallery: {
+
+        initialized:
+            false
+
+    }
+
+};
+
+
+/* ============================================================
+   DOM READY
    ============================================================ */
 
 document.addEventListener(
     'DOMContentLoaded',
     () => {
+
+        if (
+            APP_STATE.initialized
+        ) {
+
+            return;
+
+        }
+
+
+        APP_STATE.initialized =
+            true;
+
 
         /*
          * Estado inicial.
@@ -137,9 +366,11 @@ document.addEventListener(
 
         initSmoothScroll();
 
+        initActiveNavigation();
+
 
         /*
-         * 06 — EXPERIENCIA / SECCIONES
+         * 06 — SISTEMA VISUAL
          */
 
         initScrollReveal();
@@ -148,21 +379,36 @@ document.addEventListener(
 
 
         /*
-         * 07 — EVENTOS
+         * 07 — ARTISTAS
          */
 
-        initCalendar();
+        initArtists();
 
 
         /*
-         * 08 — TICKETS
+         * 08 — EVENTOS
+         */
+
+        initEventsGateway();
+
+
+        /*
+         * 09 — GALERÍA
+         * VISUAL ARCHIVE / ROOTS EXPERIENCE
+         */
+
+        initGallery();
+
+
+        /*
+         * 10 — TICKETS
          */
 
         initTicket();
 
 
         /*
-         * 09 — FOOTER
+         * 11 — FOOTER
          */
 
         initCurrentYear();
@@ -186,8 +432,7 @@ function initPreloader() {
 
     /*
      * Si no existe preloader,
-     * continuamos directamente
-     * con el sitio.
+     * continuar directamente.
      */
 
     if (!preloader) {
@@ -200,13 +445,11 @@ function initPreloader() {
             CONFIG.classes.loaded
         );
 
-
         document.dispatchEvent(
             new CustomEvent(
                 'arcarius:territory-open'
             )
         );
-
 
         return;
 
@@ -225,14 +468,8 @@ function initPreloader() {
         );
 
 
-    /*
-     * Duración total:
-     *
-     * 5 segundos.
-     */
-
     const duration =
-        5000;
+        CONFIG.timings.preloader;
 
 
     const start =
@@ -245,14 +482,10 @@ function initPreloader() {
 
     /*
      * Curva de progreso.
-     *
-     * Comienza suave,
-     * acelera en el centro
-     * y desacelera al final.
      */
 
     const easeProgress =
-        (value) => {
+        value => {
 
             return (
                 1 -
@@ -266,12 +499,11 @@ function initPreloader() {
 
 
     /*
-     * Actualizar contador
-     * y barra.
+     * Actualizar contador.
      */
 
     const updateProgress =
-        (value) => {
+        value => {
 
             const safeValue =
                 Math.min(
@@ -313,18 +545,21 @@ function initPreloader() {
 
 
     /*
-     * APERTURA
+     * Abrir experiencia.
      */
 
     const openTerritory =
         () => {
 
             if (completed) {
+
                 return;
+
             }
 
 
-            completed = true;
+            completed =
+                true;
 
 
             updateProgress(
@@ -332,12 +567,7 @@ function initPreloader() {
             );
 
 
-            /*
-             * Pequeña pausa
-             * después del 100%.
-             */
-
-            setTimeout(
+            window.setTimeout(
                 () => {
 
                     preloader.classList.add(
@@ -349,14 +579,7 @@ function initPreloader() {
             );
 
 
-            /*
-             * El territorio se abre.
-             *
-             * En este momento
-             * avisamos al Hero.
-             */
-
-            setTimeout(
+            window.setTimeout(
                 () => {
 
                     preloader.classList.add(
@@ -380,17 +603,12 @@ function initPreloader() {
                         )
                     );
 
-
                 },
                 850
             );
 
 
-            /*
-             * Limpieza definitiva.
-             */
-
-            setTimeout(
+            window.setTimeout(
                 () => {
 
                     preloader.style.display =
@@ -404,11 +622,11 @@ function initPreloader() {
 
 
     /*
-     * ANIMACIÓN DEL CONTADOR
+     * Animación.
      */
 
     const animate =
-        (now) => {
+        now => {
 
             const elapsed =
                 now - start;
@@ -433,8 +651,7 @@ function initPreloader() {
 
 
             if (
-                rawProgress <
-                1
+                rawProgress < 1
             ) {
 
                 requestAnimationFrame(
@@ -449,10 +666,6 @@ function initPreloader() {
 
         };
 
-
-    /*
-     * Comenzamos en 01%.
-     */
 
     updateProgress(
         1
@@ -479,28 +692,40 @@ function initHeader() {
 
 
     if (!header) {
+
         return;
+
     }
+
+
+    let lastState =
+        null;
 
 
     const update =
         () => {
 
+            const shouldScroll =
+                window.scrollY > 40;
+
+
             if (
-                window.scrollY > 40
+                shouldScroll === lastState
             ) {
 
-                header.classList.add(
-                    CONFIG.classes.scrolled
-                );
-
-            } else {
-
-                header.classList.remove(
-                    CONFIG.classes.scrolled
-                );
+                return;
 
             }
+
+
+            lastState =
+                shouldScroll;
+
+
+            header.classList.toggle(
+                CONFIG.classes.scrolled,
+                shouldScroll
+            );
 
         };
 
@@ -512,7 +737,8 @@ function initHeader() {
         'scroll',
         update,
         {
-            passive: true
+            passive:
+                true
         }
     );
 
@@ -533,25 +759,16 @@ function initHeroExperience() {
 
 
     if (!hero) {
+
         return;
+
     }
 
-
-    /*
-     * El Hero permanece preparado
-     * mientras el territorio está
-     * cargando.
-     */
 
     hero.classList.add(
         CONFIG.classes.heroEntering
     );
 
-
-    /*
-     * Cuando el preloader termina,
-     * liberamos el Hero.
-     */
 
     document.addEventListener(
         'arcarius:territory-open',
@@ -563,18 +780,11 @@ function initHeroExperience() {
 
         },
         {
-            once: true
+            once:
+                true
         }
     );
 
-
-    /*
-     * Seguridad:
-     *
-     * Si el preloader no existe
-     * y el body ya está cargado,
-     * mostramos el Hero.
-     */
 
     if (
         document.body.classList.contains(
@@ -591,14 +801,18 @@ function initHeroExperience() {
 }
 
 
-/*
- * Revelar Hero.
- */
+/* ============================================================
+   REVEAL HERO
+   ============================================================ */
 
-function revealHero(hero) {
+function revealHero(
+    hero
+) {
 
     if (!hero) {
+
         return;
+
     }
 
 
@@ -617,14 +831,6 @@ function revealHero(hero) {
         CONFIG.classes.heroEntered
     );
 
-
-    /*
-     * Dejamos que el CSS controle
-     * la coreografía visual.
-     *
-     * El JS únicamente marca
-     * el momento de entrada.
-     */
 
     const revealElements =
         hero.querySelectorAll(
@@ -646,19 +852,19 @@ function revealHero(hero) {
             }
         );
 
+
         return;
 
     }
 
 
-    /*
-     * Entrada escalonada de elementos.
-     */
-
     revealElements.forEach(
-        (element, index) => {
+        (
+            element,
+            index
+        ) => {
 
-            setTimeout(
+            window.setTimeout(
                 () => {
 
                     element.classList.add(
@@ -666,7 +872,11 @@ function revealHero(hero) {
                     );
 
                 },
-                150 + (index * 110)
+                150 +
+                (
+                    index *
+                    CONFIG.timings.heroReveal
+                )
             );
 
         }
@@ -688,7 +898,9 @@ function initHeroVideo() {
 
 
     if (!video) {
+
         return;
+
     }
 
 
@@ -700,11 +912,11 @@ function initHeroVideo() {
         true;
 
 
-    /*
-     * Si el usuario solicita
-     * menos movimiento,
-     * detenemos el video.
-     */
+    video.setAttribute(
+        'playsinline',
+        ''
+    );
+
 
     if (
         prefersReducedMotion()
@@ -717,21 +929,81 @@ function initHeroVideo() {
     }
 
 
-    /*
-     * Intentamos reproducirlo.
-     */
+    const playVideo =
+        () => {
 
-    video.play()
-        .catch(
-            () => {
+            if (
+                document.hidden
+            ) {
 
-                /*
-                 * Algunos navegadores
-                 * pueden bloquear autoplay.
-                 */
+                return;
 
             }
+
+
+            const promise =
+                video.play();
+
+
+            if (
+                promise &&
+                typeof promise.catch === 'function'
+            ) {
+
+                promise.catch(
+                    () => {}
+                );
+
+            }
+
+        };
+
+
+    if (
+        video.readyState >= 2
+    ) {
+
+        playVideo();
+
+    } else {
+
+        video.addEventListener(
+            'loadeddata',
+            playVideo,
+            {
+                once:
+                    true
+            }
         );
+
+    }
+
+
+    /*
+     * Pausar cuando la pestaña
+     * queda en segundo plano.
+     */
+
+    document.addEventListener(
+        'visibilitychange',
+        () => {
+
+            if (
+                document.hidden
+            ) {
+
+                video.pause();
+
+            } else if (
+                !prefersReducedMotion()
+            ) {
+
+                playVideo();
+
+            }
+
+        }
+    );
 
 }
 
@@ -777,7 +1049,23 @@ function initMobileMenu() {
 
 
     /*
-     * ABRIR MENÚ
+     * Estado inicial.
+     */
+
+    toggle.setAttribute(
+        'aria-expanded',
+        'false'
+    );
+
+
+    menu.setAttribute(
+        'aria-hidden',
+        'true'
+    );
+
+
+    /*
+     * Abrir.
      */
 
     const openMenu =
@@ -813,7 +1101,7 @@ function initMobileMenu() {
 
 
     /*
-     * CERRAR MENÚ
+     * Cerrar.
      */
 
     const closeMenu =
@@ -849,7 +1137,7 @@ function initMobileMenu() {
 
 
     /*
-     * BOTÓN PRINCIPAL
+     * Toggle.
      */
 
     toggle.addEventListener(
@@ -875,7 +1163,7 @@ function initMobileMenu() {
 
 
     /*
-     * ELEMENTOS DE CIERRE
+     * Cerrar overlay / botón.
      */
 
     closeElements.forEach(
@@ -891,7 +1179,7 @@ function initMobileMenu() {
 
 
     /*
-     * LINKS DEL MENÚ
+     * Links.
      */
 
     menuLinks.forEach(
@@ -907,7 +1195,7 @@ function initMobileMenu() {
 
 
     /*
-     * ESCAPE
+     * Escape.
      */
 
     document.addEventListener(
@@ -915,10 +1203,15 @@ function initMobileMenu() {
         event => {
 
             if (
-                event.key === 'Escape'
+                event.key === 'Escape' &&
+                menu.classList.contains(
+                    CONFIG.classes.open
+                )
             ) {
 
                 closeMenu();
+
+                toggle.focus();
 
             }
 
@@ -927,7 +1220,7 @@ function initMobileMenu() {
 
 
     /*
-     * DESKTOP
+     * Cerrar al pasar a desktop.
      */
 
     window.addEventListener(
@@ -942,6 +1235,10 @@ function initMobileMenu() {
 
             }
 
+        },
+        {
+            passive:
+                true
         }
     );
 
@@ -958,6 +1255,13 @@ function initSmoothScroll() {
         document.querySelectorAll(
             'a[href^="#"]'
         );
+
+
+    if (!links.length) {
+
+        return;
+
+    }
 
 
     links.forEach(
@@ -1012,9 +1316,7 @@ function initSmoothScroll() {
 
 
                     const top =
-                        target
-                            .getBoundingClientRect()
-                            .top
+                        target.getBoundingClientRect().top
                         +
                         window.scrollY
                         -
@@ -1046,6 +1348,166 @@ function initSmoothScroll() {
 
 
 /* ============================================================
+   ACTIVE NAVIGATION
+   ============================================================ */
+
+function initActiveNavigation() {
+
+    const navLinks =
+        document.querySelectorAll(
+            CONFIG.selectors.navLinks
+        );
+
+
+    if (!navLinks.length) {
+
+        return;
+
+    }
+
+
+    const sections =
+        [];
+
+
+    navLinks.forEach(
+        link => {
+
+            const href =
+                link.getAttribute(
+                    'href'
+                );
+
+
+            if (
+                !href ||
+                !href.startsWith('#')
+            ) {
+
+                return;
+
+            }
+
+
+            const section =
+                document.querySelector(
+                    href
+                );
+
+
+            if (!section) {
+
+                return;
+
+            }
+
+
+            sections.push({
+
+                section,
+
+                link
+
+            });
+
+        }
+    );
+
+
+    if (!sections.length) {
+
+        return;
+
+    }
+
+
+    if (
+        !('IntersectionObserver' in window)
+    ) {
+
+        return;
+
+    }
+
+
+    const observer =
+        new IntersectionObserver(
+            entries => {
+
+                entries.forEach(
+                    entry => {
+
+                        if (
+                            !entry.isIntersecting
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        sections.forEach(
+                            item => {
+
+                                const active =
+                                    item.section ===
+                                    entry.target;
+
+
+                                item.link.classList.toggle(
+                                    CONFIG.classes.active,
+                                    active
+                                );
+
+
+                                if (active) {
+
+                                    item.link.setAttribute(
+                                        'aria-current',
+                                        'page'
+                                    );
+
+                                } else {
+
+                                    item.link.removeAttribute(
+                                        'aria-current'
+                                    );
+
+                                }
+
+                            }
+                        );
+
+                    }
+                );
+
+            },
+            {
+
+                threshold:
+                    0.25,
+
+                rootMargin:
+                    '-20% 0px -55% 0px'
+
+            }
+        );
+
+
+    sections.forEach(
+        item => {
+
+            observer.observe(
+                item.section
+            );
+
+        }
+    );
+
+}
+
+
+/* ============================================================
    SCROLL REVEAL
    ============================================================ */
 
@@ -1058,8 +1520,37 @@ function initScrollReveal() {
 
 
     if (!elements.length) {
+
         return;
+
     }
+
+
+    /*
+     * NUEVO SISTEMA DE ARTISTAS
+     *
+     * Ya no buscamos .artist-profile.
+     */
+
+    const artistScenes =
+        document.querySelectorAll(
+            CONFIG.selectors.artistScenes
+        );
+
+
+    artistScenes.forEach(
+        (
+            scene,
+            index
+        ) => {
+
+            scene.style.setProperty(
+                '--artist-index',
+                index
+            );
+
+        }
+    );
 
 
     /*
@@ -1080,14 +1571,35 @@ function initScrollReveal() {
             }
         );
 
+
         return;
 
     }
 
 
     /*
-     * Intersection Observer.
+     * Fallback.
      */
+
+    if (
+        !('IntersectionObserver' in window)
+    ) {
+
+        elements.forEach(
+            element => {
+
+                element.classList.add(
+                    CONFIG.classes.visible
+                );
+
+            }
+        );
+
+
+        return;
+
+    }
+
 
     const observer =
         new IntersectionObserver(
@@ -1144,7 +1656,12 @@ function initScrollReveal() {
 
 
 /* ============================================================
-   CARD TILT
+   GENERIC CARD TILT
+   ============================================================
+
+   IMPORTANTE:
+   Las nuevas escenas de artistas NO utilizan
+   este sistema.
    ============================================================ */
 
 function initTiltCards() {
@@ -1168,21 +1685,45 @@ function initTiltCards() {
         card => {
 
             /*
-             * Movimiento del cursor.
+             * Las escenas de artistas
+             * tienen su propio sistema.
              */
 
-            card.addEventListener(
-                'pointermove',
-                event => {
+            if (
+                card.matches(
+                    '.artist-scene'
+                )
+            ) {
 
-                    /*
-                     * En móvil no aplicamos
-                     * el efecto 3D.
-                     */
+                return;
 
-                    if (
-                        window.innerWidth < 768
-                    ) {
+            }
+
+
+            let frame =
+                null;
+
+
+            let pointerX =
+                0;
+
+
+            let pointerY =
+                0;
+
+
+            let active =
+                false;
+
+
+            const update =
+                () => {
+
+                    frame =
+                        null;
+
+
+                    if (!active) {
 
                         return;
 
@@ -1193,14 +1734,14 @@ function initTiltCards() {
                         card.getBoundingClientRect();
 
 
-                    const x =
-                        event.clientX -
-                        rect.left;
+                    if (
+                        rect.width === 0 ||
+                        rect.height === 0
+                    ) {
 
+                        return;
 
-                    const y =
-                        event.clientY -
-                        rect.top;
+                    }
 
 
                     const centerX =
@@ -1209,6 +1750,16 @@ function initTiltCards() {
 
                     const centerY =
                         rect.height / 2;
+
+
+                    const x =
+                        pointerX -
+                        rect.left;
+
+
+                    const y =
+                        pointerY -
+                        rect.top;
 
 
                     const rotateX =
@@ -1231,18 +1782,101 @@ function initTiltCards() {
                          rotateY(${rotateY}deg)
                          translateY(-6px)`;
 
+                };
+
+
+            const requestUpdate =
+                () => {
+
+                    if (!frame) {
+
+                        frame =
+                            requestAnimationFrame(
+                                update
+                            );
+
+                    }
+
+                };
+
+
+            card.addEventListener(
+                'pointerenter',
+                event => {
+
+                    if (
+                        window.innerWidth < 768
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    active =
+                        true;
+
+
+                    pointerX =
+                        event.clientX;
+
+
+                    pointerY =
+                        event.clientY;
+
+
+                    requestUpdate();
+
                 }
             );
 
 
-            /*
-             * Regresar a posición
-             * original.
-             */
+            card.addEventListener(
+                'pointermove',
+                event => {
+
+                    if (
+                        window.innerWidth < 768
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    pointerX =
+                        event.clientX;
+
+
+                    pointerY =
+                        event.clientY;
+
+
+                    requestUpdate();
+
+                }
+            );
+
 
             card.addEventListener(
                 'pointerleave',
                 () => {
+
+                    active =
+                        false;
+
+
+                    if (frame) {
+
+                        cancelAnimationFrame(
+                            frame
+                        );
+
+                        frame =
+                            null;
+
+                    }
+
 
                     card.style.transform =
                         '';
@@ -1256,6 +1890,985 @@ function initTiltCards() {
 }
 
 
+/* ============================================================
+   ARTISTAS
+   ARCARIUS — THE LINEUP
+   NUEVO SISTEMA
+   ============================================================ */
+
+function initArtists() {
+
+    const section =
+        document.querySelector(
+            CONFIG.selectors.artists
+        );
+
+
+    if (!section) {
+
+        return;
+
+    }
+
+
+    if (
+        APP_STATE.artists.initialized
+    ) {
+
+        return;
+
+    }
+
+
+    APP_STATE.artists.initialized =
+        true;
+
+
+    const scenes =
+        section.querySelectorAll(
+            CONFIG.selectors.artistScenes
+        );
+
+
+    if (!scenes.length) {
+
+        console.warn(
+            'ARCARIUS: No se encontraron .artist-scene dentro de #artists.'
+        );
+
+
+        return;
+
+    }
+
+
+    /*
+     * --------------------------------------------------------
+     * PREPARACIÓN DE ESCENAS
+     * --------------------------------------------------------
+     */
+
+    scenes.forEach(
+        (
+            scene,
+            index
+        ) => {
+
+            scene.style.setProperty(
+                '--artist-index',
+                index
+            );
+
+
+            /*
+             * Accesibilidad.
+             */
+
+            if (
+                !scene.hasAttribute(
+                    'tabindex'
+                )
+            ) {
+
+                scene.setAttribute(
+                    'tabindex',
+                    '0'
+                );
+
+            }
+
+
+            /*
+             * Preparar imagen.
+             */
+
+            const image =
+                scene.querySelector(
+                    CONFIG.selectors.artistImage
+                );
+
+
+            if (!image) {
+
+                console.warn(
+                    'ARCARIUS: .artist-scene no contiene .artist-scene__image img.',
+                    scene
+                );
+
+
+                scene.classList.add(
+                    CONFIG.classes.artistError
+                );
+
+
+                return;
+
+            }
+
+
+            initArtistImage(
+                image,
+                scene
+            );
+
+        }
+    );
+
+
+    /*
+     * --------------------------------------------------------
+     * REDUCED MOTION
+     * --------------------------------------------------------
+     */
+
+    if (
+        prefersReducedMotion()
+    ) {
+
+        scenes.forEach(
+            scene => {
+
+                scene.classList.add(
+                    CONFIG.classes.artistsActive
+                );
+
+
+                scene.style.setProperty(
+                    '--artist-visible',
+                    '1'
+                );
+
+            }
+        );
+
+
+        return;
+
+    }
+
+
+    /*
+     * --------------------------------------------------------
+     * DETECTAR TIPO DE DISPOSITIVO
+     * --------------------------------------------------------
+     *
+     * Android / touch:
+     * viewport + scroll.
+     *
+     * Desktop:
+     * pointer + parallax.
+     */
+
+    const hasFinePointer =
+        window.matchMedia(
+            '(hover: hover) and (pointer: fine)'
+        ).matches;
+
+
+    const hasTouch =
+        (
+            'ontouchstart' in window
+        ) ||
+        (
+            navigator.maxTouchPoints > 0
+        );
+
+
+    /*
+     * Android / móviles.
+     */
+
+    if (
+        hasTouch ||
+        !hasFinePointer
+    ) {
+
+        initArtistMobileScenes(
+            scenes
+        );
+
+    }
+
+
+    /*
+     * Desktop.
+     */
+
+    if (
+        hasFinePointer &&
+        !hasTouch
+    ) {
+
+        initArtistDesktopScenes(
+            scenes
+        );
+
+    }
+
+
+    /*
+     * Teclado.
+     */
+
+    initArtistKeyboard(
+        scenes
+    );
+
+
+    /*
+     * Viewport.
+     */
+
+    initArtistSceneViewport(
+        scenes
+    );
+
+}
+
+
+/* ============================================================
+   ARTIST IMAGE
+   VERIFICACIÓN / CARGA
+   ============================================================ */
+
+function initArtistImage(
+    image,
+    scene
+) {
+
+    if (
+        !image ||
+        !scene
+    ) {
+
+        return;
+
+    }
+
+
+    /*
+     * --------------------------------------------------------
+     * CARGA CORRECTA
+     * --------------------------------------------------------
+     */
+
+    const markLoaded =
+        () => {
+
+            image.classList.add(
+                CONFIG.classes.artistLoaded
+            );
+
+
+            image.classList.remove(
+                CONFIG.classes.artistError
+            );
+
+
+            scene.classList.add(
+                CONFIG.classes.artistLoaded
+            );
+
+
+            scene.classList.remove(
+                CONFIG.classes.artistError
+            );
+
+        };
+
+
+    /*
+     * --------------------------------------------------------
+     * ERROR
+     * --------------------------------------------------------
+     */
+
+    const markError =
+        () => {
+
+            image.classList.remove(
+                CONFIG.classes.artistLoaded
+            );
+
+
+            image.classList.add(
+                CONFIG.classes.artistError
+            );
+
+
+            scene.classList.remove(
+                CONFIG.classes.artistLoaded
+            );
+
+
+            scene.classList.add(
+                CONFIG.classes.artistError
+            );
+
+
+            console.error(
+                'ARCARIUS: No se pudo cargar la imagen del artista:',
+                image.currentSrc ||
+                image.src
+            );
+
+        };
+
+
+    /*
+     * Eventos.
+     */
+
+    image.addEventListener(
+        'load',
+        markLoaded,
+        {
+            once:
+                true
+        }
+    );
+
+
+    image.addEventListener(
+        'error',
+        markError,
+        {
+            once:
+                true
+        }
+    );
+
+
+    /*
+     * Si ya estaba cargada
+     * antes de inicializar JS.
+     */
+
+    if (
+        image.complete
+    ) {
+
+        if (
+            image.naturalWidth > 0
+        ) {
+
+            markLoaded();
+
+        } else {
+
+            markError();
+
+        }
+
+    }
+
+}
+
+
+/* ============================================================
+   ARTISTS
+   MOBILE / ANDROID
+   ACTIVACIÓN POR VIEWPORT
+   ============================================================ */
+
+function initArtistMobileScenes(
+    scenes
+) {
+
+    /*
+     * Android debe priorizar
+     * scroll + viewport.
+     */
+
+    if (
+        !('IntersectionObserver' in window)
+    ) {
+
+        scenes.forEach(
+            scene => {
+
+                scene.classList.add(
+                    CONFIG.classes.artistsActive
+                );
+
+
+                scene.style.setProperty(
+                    '--artist-visible',
+                    '1'
+                );
+
+            }
+        );
+
+
+        return;
+
+    }
+
+
+    const observer =
+        new IntersectionObserver(
+            entries => {
+
+                entries.forEach(
+                    entry => {
+
+                        const scene =
+                            entry.target;
+
+
+                        if (
+                            entry.isIntersecting
+                        ) {
+
+                            scene.classList.add(
+                                CONFIG.classes.artistsActive
+                            );
+
+
+                            scene.style.setProperty(
+                                '--artist-visible',
+                                '1'
+                            );
+
+                        } else {
+
+                            scene.classList.remove(
+                                CONFIG.classes.artistsActive
+                            );
+
+
+                            scene.style.setProperty(
+                                '--artist-visible',
+                                '0'
+                            );
+
+                        }
+
+                    }
+                );
+
+            },
+            {
+
+                threshold:
+                    0.45,
+
+                rootMargin:
+                    '-8% 0px -8% 0px'
+
+            }
+        );
+
+
+    scenes.forEach(
+        scene => {
+
+            observer.observe(
+                scene
+            );
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   ARTISTS
+   DESKTOP
+   PARALLAX / PROFUNDIDAD
+   ============================================================ */
+
+function initArtistDesktopScenes(
+    scenes
+) {
+
+    scenes.forEach(
+        scene => {
+
+            const media =
+                scene.querySelector(
+                    CONFIG.selectors.artistMedia
+                );
+
+
+            const image =
+                scene.querySelector(
+                    CONFIG.selectors.artistImage
+                );
+
+
+            if (
+                !image
+            ) {
+
+                return;
+
+            }
+
+
+            let frame =
+                null;
+
+
+            let pointerX =
+                0;
+
+
+            let pointerY =
+                0;
+
+
+            let active =
+                false;
+
+
+            const update =
+                () => {
+
+                    frame =
+                        null;
+
+
+                    if (!active) {
+
+                        return;
+
+                    }
+
+
+                    const rect =
+                        scene.getBoundingClientRect();
+
+
+                    if (
+                        rect.width === 0 ||
+                        rect.height === 0
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    const relativeX =
+                        (
+                            pointerX -
+                            rect.left
+                        ) /
+                        rect.width;
+
+
+                    const relativeY =
+                        (
+                            pointerY -
+                            rect.top
+                        ) /
+                        rect.height;
+
+
+                    const normalizedX =
+                        relativeX -
+                        0.5;
+
+
+                    const normalizedY =
+                        relativeY -
+                        0.5;
+
+
+                    /*
+                     * ------------------------------------------------
+                     * MOVIMIENTO DE IMAGEN
+                     * ------------------------------------------------
+                     */
+
+                    const imageX =
+                        normalizedX *
+                        -24;
+
+
+                    const imageY =
+                        normalizedY *
+                        -18;
+
+
+                    image.style.transform =
+                        `scale(1.08)
+                         translate3d(
+                            ${imageX}px,
+                            ${imageY}px,
+                            0
+                         )`;
+
+
+                    /*
+                     * ------------------------------------------------
+                     * MEDIA
+                     * ------------------------------------------------
+                     */
+
+                    if (media) {
+
+                        const mediaX =
+                            normalizedX *
+                            6;
+
+
+                        const mediaY =
+                            normalizedY *
+                            4;
+
+
+                        media.style.transform =
+                            `translate3d(
+                                ${mediaX}px,
+                                ${mediaY}px,
+                                0
+                            )`;
+
+                    }
+
+
+                    /*
+                     * Variables CSS.
+                     */
+
+                    scene.style.setProperty(
+                        '--artist-x',
+                        `${relativeX * 100}%`
+                    );
+
+
+                    scene.style.setProperty(
+                        '--artist-y',
+                        `${relativeY * 100}%`
+                    );
+
+                };
+
+
+            const requestUpdate =
+                () => {
+
+                    if (!frame) {
+
+                        frame =
+                            requestAnimationFrame(
+                                update
+                            );
+
+                    }
+
+                };
+
+
+            /*
+             * ENTRADA
+             */
+
+            scene.addEventListener(
+                'pointerenter',
+                event => {
+
+                    active =
+                        true;
+
+
+                    scene.classList.add(
+                        CONFIG.classes.artistsActive
+                    );
+
+
+                    scene.style.setProperty(
+                        '--artist-visible',
+                        '1'
+                    );
+
+
+                    pointerX =
+                        event.clientX;
+
+
+                    pointerY =
+                        event.clientY;
+
+
+                    requestUpdate();
+
+                }
+            );
+
+
+            /*
+             * MOVIMIENTO
+             */
+
+            scene.addEventListener(
+                'pointermove',
+                event => {
+
+                    if (!active) {
+
+                        return;
+
+                    }
+
+
+                    pointerX =
+                        event.clientX;
+
+
+                    pointerY =
+                        event.clientY;
+
+
+                    requestUpdate();
+
+                }
+            );
+
+
+            /*
+             * SALIDA
+             */
+
+            scene.addEventListener(
+                'pointerleave',
+                () => {
+
+                    active =
+                        false;
+
+
+                    scene.classList.remove(
+                        CONFIG.classes.artistsActive
+                    );
+
+
+                    if (frame) {
+
+                        cancelAnimationFrame(
+                            frame
+                        );
+
+
+                        frame =
+                            null;
+
+                    }
+
+
+                    image.style.transform =
+                        '';
+
+
+                    if (media) {
+
+                        media.style.transform =
+                            '';
+
+                    }
+
+
+                    scene.style.removeProperty(
+                        '--artist-x'
+                    );
+
+
+                    scene.style.removeProperty(
+                        '--artist-y'
+                    );
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   ARTISTS
+   KEYBOARD / ACCESSIBILITY
+   ============================================================ */
+
+function initArtistKeyboard(
+    scenes
+) {
+
+    scenes.forEach(
+        scene => {
+
+            scene.addEventListener(
+                'focus',
+                () => {
+
+                    scene.classList.add(
+                        CONFIG.classes.artistsActive
+                    );
+
+
+                    scene.style.setProperty(
+                        '--artist-visible',
+                        '1'
+                    );
+
+                }
+            );
+
+
+            scene.addEventListener(
+                'blur',
+                () => {
+
+                    /*
+                     * En desktop quitamos
+                     * el estado al perder foco.
+                     *
+                     * En móvil el viewport
+                     * controla la escena.
+                     */
+
+                    if (
+                        window.matchMedia(
+                            '(hover: hover) and (pointer: fine)'
+                        ).matches
+                    ) {
+
+                        scene.classList.remove(
+                            CONFIG.classes.artistsActive
+                        );
+
+                    }
+
+                }
+            );
+
+
+            scene.addEventListener(
+                'keydown',
+                event => {
+
+                    if (
+                        event.key === 'Enter' ||
+                        event.key === ' '
+                    ) {
+
+                        event.preventDefault();
+
+
+                        scene.classList.toggle(
+                            CONFIG.classes.artistsActive
+                        );
+
+
+                        scene.style.setProperty(
+                            '--artist-visible',
+                            scene.classList.contains(
+                                CONFIG.classes.artistsActive
+                            )
+                                ? '1'
+                                : '0'
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   ARTISTS
+   VIEWPORT UNIVERSAL
+   ============================================================ */
+
+function initArtistSceneViewport(
+    scenes
+) {
+
+    if (
+        !('IntersectionObserver' in window)
+    ) {
+
+        scenes.forEach(
+            scene => {
+
+                scene.style.setProperty(
+                    '--artist-visible',
+                    '1'
+                );
+
+            }
+        );
+
+
+        return;
+
+    }
+
+
+    const observer =
+        new IntersectionObserver(
+            entries => {
+
+                entries.forEach(
+                    entry => {
+
+                        const scene =
+                            entry.target;
+
+
+                        if (
+                            entry.isIntersecting
+                        ) {
+
+                            scene.style.setProperty(
+                                '--artist-visible',
+                                '1'
+                            );
+
+                        } else {
+
+                            scene.style.setProperty(
+                                '--artist-visible',
+                                '0'
+                            );
+
+                        }
+
+                    }
+                );
+
+            },
+            {
+
+                threshold:
+                    0.25
+
+            }
+        );
+
+
+    scenes.forEach(
+        scene => {
+
+            observer.observe(
+                scene
+            );
+
+        }
+    );
+
+}
+
 
 /* ============================================================
    EVENTOS
@@ -1266,30 +2879,50 @@ function initEventsGateway() {
 
     const eventCard =
         document.querySelector(
-            '[data-event-card]'
+            CONFIG.selectors.eventCard
         );
+
 
     const emptyState =
         document.querySelector(
-            '[data-events-empty]'
+            CONFIG.selectors.eventsEmpty
         );
 
+
     if (!eventCard) {
+
         console.warn(
             'ARCARIUS: No se encontró [data-event-card].'
         );
 
+
         return;
+
     }
 
 
+    if (
+        APP_STATE.events.initialized
+    ) {
+
+        return;
+
+    }
+
+
+    APP_STATE.events.initialized =
+        true;
+
+
     /* ========================================================
-       EVENTOS ARCARIUS — EDITAR AQUÍ
+       EVENTOS OFICIALES
+       EDITAR ÚNICAMENTE ESTA LISTA
        ======================================================== */
 
     const events = [
 
         {
+
             date:
                 '2026-10-24',
 
@@ -1303,14 +2936,16 @@ function initEventsGateway() {
                 'Una noche que no se repite. El territorio vuelve a abrirse.',
 
             image:
-                'assets/imagenes/eventos/arcarius-001.jpg',
+                'assets/images/events/arcarius-001.jpg',
 
             code:
                 'ARC-001'
+
         },
 
 
         {
+
             date:
                 '2026-12-20',
 
@@ -1328,6 +2963,7 @@ function initEventsGateway() {
 
             code:
                 'ARC-002'
+
         }
 
     ];
@@ -1339,52 +2975,73 @@ function initEventsGateway() {
 
     const eventDay =
         eventCard.querySelector(
-            '[data-event-day]'
+            CONFIG.selectors.eventDay
         );
+
 
     const eventMonth =
         eventCard.querySelector(
-            '[data-event-month]'
+            CONFIG.selectors.eventMonth
         );
+
 
     const eventYear =
         eventCard.querySelector(
-            '[data-event-year]'
+            CONFIG.selectors.eventYear
         );
+
 
     const eventTitle =
         eventCard.querySelector(
-            '[data-event-title]'
+            CONFIG.selectors.eventTitle
         );
+
 
     const eventLocation =
         eventCard.querySelector(
-            '[data-event-location]'
+            CONFIG.selectors.eventLocation
         );
+
 
     const eventDescription =
         eventCard.querySelector(
-            '[data-event-description]'
+            CONFIG.selectors.eventDescription
         );
+
 
     const eventIndex =
         eventCard.querySelector(
-            '[data-event-index]'
+            CONFIG.selectors.eventIndex
         );
+
 
     const eventCode =
         eventCard.querySelector(
-            '[data-event-code]'
+            CONFIG.selectors.eventCode
         );
+
 
     const eventVisual =
         eventCard.querySelector(
-            '[data-event-visual]'
+            CONFIG.selectors.eventVisual
         );
+
 
     const eventLink =
         eventCard.querySelector(
-            '[data-event-link]'
+            CONFIG.selectors.eventLink
+        );
+
+
+    const nextButton =
+        document.querySelector(
+            CONFIG.selectors.eventNext
+        );
+
+
+    const previousButton =
+        document.querySelector(
+            CONFIG.selectors.eventPrevious
         );
 
 
@@ -1396,25 +3053,77 @@ function initEventsGateway() {
         dateString
     ) {
 
+        if (
+            typeof dateString !== 'string'
+        ) {
+
+            return new Date(
+                NaN
+            );
+
+        }
+
+
+        const parts =
+            dateString
+                .split('-')
+                .map(Number);
+
+
+        if (
+            parts.length !== 3 ||
+            parts.some(
+                Number.isNaN
+            )
+        ) {
+
+            return new Date(
+                NaN
+            );
+
+        }
+
+
         const [
             year,
             month,
             day
         ] =
-            dateString
-                .split('-')
-                .map(Number);
+            parts;
+
 
         return new Date(
             year,
             month - 1,
             day
         );
+
     }
 
 
     /* ========================================================
-       FORMATEAR FECHA
+       FECHA VÁLIDA
+       ======================================================== */
+
+    function isValidDate(
+        dateString
+    ) {
+
+        const date =
+            createLocalDate(
+                dateString
+            );
+
+
+        return !Number.isNaN(
+            date.getTime()
+        );
+
+    }
+
+
+    /* ========================================================
+       FORMATO DE FECHA
        ======================================================== */
 
     function getDateParts(
@@ -1426,12 +3135,36 @@ function initEventsGateway() {
                 dateString
             );
 
+
+        if (
+            Number.isNaN(
+                date.getTime()
+            )
+        ) {
+
+            return {
+
+                day:
+                    '--',
+
+                month:
+                    '---',
+
+                year:
+                    '----'
+
+            };
+
+        }
+
+
         const month =
             date
                 .toLocaleString(
                     'es-ES',
                     {
-                        month: 'short'
+                        month:
+                            'short'
                     }
                 )
                 .replace(
@@ -1439,6 +3172,7 @@ function initEventsGateway() {
                     ''
                 )
                 .toUpperCase();
+
 
         return {
 
@@ -1458,6 +3192,7 @@ function initEventsGateway() {
                 )
 
         };
+
     }
 
 
@@ -1471,17 +3206,10 @@ function initEventsGateway() {
 
         if (!eventVisual) {
 
-            console.warn(
-                'ARCARIUS: No se encontró [data-event-visual].'
-            );
-
             return;
+
         }
 
-
-        /* ----------------------------------------------------
-           Limpiar imagen anterior
-           ---------------------------------------------------- */
 
         eventVisual.style.backgroundImage =
             '';
@@ -1492,28 +3220,18 @@ function initEventsGateway() {
         );
 
 
-        /* ----------------------------------------------------
-           Evento sin imagen
-           ---------------------------------------------------- */
-
         if (
             !imagePath ||
             typeof imagePath !== 'string'
         ) {
 
-            console.info(
-                'ARCARIUS: Este evento no tiene imagen.'
-            );
-
             return;
+
         }
 
 
-        /* ----------------------------------------------------
-           Convertir la ruta en URL absoluta
-           ---------------------------------------------------- */
-
         let imageURL;
+
 
         try {
 
@@ -1526,37 +3244,26 @@ function initEventsGateway() {
         } catch (error) {
 
             console.error(
-                'ARCARIUS: Ruta de imagen inválida:',
-                imagePath,
+                'ARCARIUS: Ruta de imagen inválida.',
                 error
             );
 
+
             return;
+
         }
 
-
-        console.log(
-            'ARCARIUS: Intentando cargar imagen:',
-            imageURL
-        );
-
-
-        /* ----------------------------------------------------
-           Precargar imagen
-           ---------------------------------------------------- */
 
         const image =
             new Image();
 
 
+        image.decoding =
+            'async';
+
+
         image.onload =
-            function () {
-
-                console.log(
-                    'ARCARIUS: Imagen cargada correctamente:',
-                    imageURL
-                );
-
+            () => {
 
                 eventVisual.style.backgroundImage =
                     `url("${imageURL}")`;
@@ -1570,10 +3277,10 @@ function initEventsGateway() {
 
 
         image.onerror =
-            function () {
+            () => {
 
-                console.error(
-                    'ARCARIUS: NO se pudo cargar la imagen:',
+                console.warn(
+                    'ARCARIUS: No se pudo cargar la imagen del evento:',
                     imageURL
                 );
 
@@ -1591,7 +3298,20 @@ function initEventsGateway() {
 
         image.src =
             imageURL;
+
     }
+
+
+    /* ========================================================
+       TRANSICIÓN
+       ======================================================== */
+
+    let transitionToken =
+        0;
+
+
+    let transitionTimer =
+        null;
 
 
     /* ========================================================
@@ -1604,7 +3324,9 @@ function initEventsGateway() {
     ) {
 
         if (!event) {
+
             return;
+
         }
 
 
@@ -1614,179 +3336,223 @@ function initEventsGateway() {
             );
 
 
-        /* ----------------------------------------------------
-           Animación de salida
-           ---------------------------------------------------- */
+        const token =
+            ++transitionToken;
+
+
+        /*
+         * Cancelar transición anterior.
+         */
+
+        if (transitionTimer) {
+
+            clearTimeout(
+                transitionTimer
+            );
+
+        }
+
 
         eventCard.classList.remove(
-            'is-visible'
+            CONFIG.classes.visible
         );
 
 
         eventCard.classList.add(
-            'is-changing'
+            CONFIG.classes.changing
         );
 
 
-        /* ----------------------------------------------------
-           Cambiar contenido
-           ---------------------------------------------------- */
+        transitionTimer =
+            window.setTimeout(
+                () => {
 
-        setTimeout(
-            function () {
+                    if (
+                        token !==
+                        transitionToken
+                    ) {
 
+                        return;
 
-                /* Fecha */
-
-                if (eventDay) {
-
-                    eventDay.textContent =
-                        date.day;
-
-                }
+                    }
 
 
-                if (eventMonth) {
+                    /*
+                     * Fecha.
+                     */
 
-                    eventMonth.textContent =
-                        date.month;
+                    if (eventDay) {
 
-                }
+                        eventDay.textContent =
+                            date.day;
 
-
-                if (eventYear) {
-
-                    eventYear.textContent =
-                        date.year;
-
-                }
+                    }
 
 
-                /* Título */
+                    if (eventMonth) {
 
-                if (eventTitle) {
+                        eventMonth.textContent =
+                            date.month;
 
-                    eventTitle.textContent =
-                        event.title || '';
-
-                }
+                    }
 
 
-                /* Ubicación */
+                    if (eventYear) {
 
-                if (eventLocation) {
+                        eventYear.textContent =
+                            date.year;
 
-                    eventLocation.textContent =
-                        event.location || '';
-
-                }
+                    }
 
 
-                /* Descripción */
+                    /*
+                     * Información.
+                     */
 
-                if (eventDescription) {
+                    if (eventTitle) {
 
-                    eventDescription.textContent =
-                        event.description || '';
+                        eventTitle.textContent =
+                            event.title || '';
 
-                }
-
-
-                /* Índice */
-
-                if (eventIndex) {
-
-                    eventIndex.textContent =
-                        String(
-                            index + 1
-                        ).padStart(
-                            2,
-                            '0'
-                        );
-
-                }
+                    }
 
 
-                /* Código */
+                    if (eventLocation) {
 
-                if (eventCode) {
+                        eventLocation.textContent =
+                            event.location || '';
 
-                    eventCode.textContent =
-                        event.code ||
-                        `ARC-${
+                    }
+
+
+                    if (eventDescription) {
+
+                        eventDescription.textContent =
+                            event.description || '';
+
+                    }
+
+
+                    /*
+                     * Índice.
+                     */
+
+                    if (eventIndex) {
+
+                        eventIndex.textContent =
                             String(
                                 index + 1
                             ).padStart(
-                                3,
+                                2,
                                 '0'
-                            )
-                        }`;
+                            );
 
-                }
-
-
-                /* ------------------------------------------------
-                   IMAGEN
-                   ------------------------------------------------ */
-
-                loadEventImage(
-                    event.image
-                );
+                    }
 
 
-                /* ------------------------------------------------
-                   BOTÓN
-                   ------------------------------------------------ */
+                    /*
+                     * Código.
+                     */
 
-                if (eventLink) {
+                    if (eventCode) {
 
-                    eventLink.setAttribute(
-                        'aria-label',
-                        `Entrar al evento ${event.title || 'Arcarius'}`
+                        eventCode.textContent =
+                            event.code ||
+                            `ARC-${
+                                String(
+                                    index + 1
+                                ).padStart(
+                                    3,
+                                    '0'
+                                )
+                            }`;
+
+                    }
+
+
+                    /*
+                     * Imagen.
+                     */
+
+                    loadEventImage(
+                        event.image
                     );
 
-                }
 
+                    /*
+                     * Link.
+                     */
 
-                /* ------------------------------------------------
-                   ACCESIBILIDAD
-                   ------------------------------------------------ */
+                    if (eventLink) {
 
-                eventCard.setAttribute(
-                    'aria-label',
-                    `${event.title || 'Evento Arcarius'}, ${date.day} ${date.month} ${date.year}, ${event.location || ''}`
-                );
-
-
-                /* ------------------------------------------------
-                   Animación de entrada
-                   ------------------------------------------------ */
-
-                eventCard.classList.remove(
-                    'is-changing'
-                );
-
-
-                requestAnimationFrame(
-                    function () {
-
-                        requestAnimationFrame(
-                            function () {
-
-                                eventCard.classList.add(
-                                    'is-visible'
-                                );
-
-                            }
+                        eventLink.setAttribute(
+                            'aria-label',
+                            `Entrar al evento ${
+                                event.title ||
+                                'Arcarius'
+                            }`
                         );
 
                     }
-                );
 
 
-            },
-            220
-        );
+                    /*
+                     * Accesibilidad.
+                     */
+
+                    eventCard.setAttribute(
+                        'aria-label',
+                        `${
+                            event.title ||
+                            'Evento Arcarius'
+                        }, ${
+                            date.day
+                        } ${
+                            date.month
+                        } ${
+                            date.year
+                        }, ${
+                            event.location ||
+                            ''
+                        }`
+                    );
+
+
+                    eventCard.classList.remove(
+                        CONFIG.classes.changing
+                    );
+
+
+                    requestAnimationFrame(
+                        () => {
+
+                            requestAnimationFrame(
+                                () => {
+
+                                    if (
+                                        token !==
+                                        transitionToken
+                                    ) {
+
+                                        return;
+
+                                    }
+
+
+                                    eventCard.classList.add(
+                                        CONFIG.classes.visible
+                                    );
+
+                                }
+                            );
+
+                        }
+                    );
+
+                },
+                CONFIG.timings.eventTransition
+            );
+
     }
 
 
@@ -1795,23 +3561,37 @@ function initEventsGateway() {
        ======================================================== */
 
     const sortedEvents =
-        [...events].sort(
-            function (
-                first,
-                second
-            ) {
+        [...events]
+            .filter(
+                event => {
 
-                return (
-                    createLocalDate(
-                        first.date
-                    ) -
-                    createLocalDate(
-                        second.date
-                    )
-                );
+                    return (
+                        event &&
+                        event.date &&
+                        isValidDate(
+                            event.date
+                        )
+                    );
 
-            }
-        );
+                }
+            )
+            .sort(
+                (
+                    first,
+                    second
+                ) => {
+
+                    return (
+                        createLocalDate(
+                            first.date
+                        ) -
+                        createLocalDate(
+                            second.date
+                        )
+                    );
+
+                }
+            );
 
 
     /* ========================================================
@@ -1827,7 +3607,7 @@ function initEventsGateway() {
 
 
         eventCard.classList.remove(
-            'is-visible'
+            CONFIG.classes.visible
         );
 
 
@@ -1839,12 +3619,37 @@ function initEventsGateway() {
         }
 
 
+        if (nextButton) {
+
+            nextButton.disabled =
+                true;
+
+        }
+
+
+        if (previousButton) {
+
+            previousButton.disabled =
+                true;
+
+        }
+
+
+        window.ArcariusEvents =
+            [];
+
+
+        window.ArcariusEventGateway =
+            null;
+
+
         return;
+
     }
 
 
     /* ========================================================
-       EXISTEN EVENTOS
+       EVENTOS DISPONIBLES
        ======================================================== */
 
     eventCard.hidden =
@@ -1859,16 +3664,61 @@ function initEventsGateway() {
     }
 
 
-    /* ========================================================
-       EVENTOS DISPONIBLES
-       ======================================================== */
-
     window.ArcariusEvents =
         sortedEvents;
 
 
     let currentIndex =
         0;
+
+
+    APP_STATE.events.currentIndex =
+        currentIndex;
+
+
+    /* ========================================================
+       CONTROLES
+       ======================================================== */
+
+    function updateEventControls() {
+
+        const disabled =
+            sortedEvents.length <= 1;
+
+
+        if (nextButton) {
+
+            nextButton.disabled =
+                disabled;
+
+        }
+
+
+        if (previousButton) {
+
+            previousButton.disabled =
+                disabled;
+
+        }
+
+
+        if (
+            sortedEvents.length <= 1
+        ) {
+
+            eventCard.classList.add(
+                'is-single-event'
+            );
+
+        } else {
+
+            eventCard.classList.remove(
+                'is-single-event'
+            );
+
+        }
+
+    }
 
 
     /* ========================================================
@@ -1884,6 +3734,7 @@ function initEventsGateway() {
         ) {
 
             return;
+
         }
 
 
@@ -1912,6 +3763,10 @@ function initEventsGateway() {
         }
 
 
+        APP_STATE.events.currentIndex =
+            currentIndex;
+
+
         showEvent(
             sortedEvents[
                 currentIndex
@@ -1923,57 +3778,132 @@ function initEventsGateway() {
 
 
     /* ========================================================
-       CONTROL PÚBLICO
+       BOTÓN SIGUIENTE
        ======================================================== */
 
-    window.ArcariusEventGateway = {
+    if (nextButton) {
 
-        next:
-            function () {
+        nextButton.addEventListener(
+            'click',
+            event => {
+
+                event.preventDefault();
 
                 changeEvent(
                     1
                 );
 
-            },
+            }
+        );
+
+    }
 
 
-        previous:
-            function () {
+    /* ========================================================
+       BOTÓN ANTERIOR
+       ======================================================== */
+
+    if (previousButton) {
+
+        previousButton.addEventListener(
+            'click',
+            event => {
+
+                event.preventDefault();
 
                 changeEvent(
                     -1
                 );
 
-            },
+            }
+        );
+
+    }
 
 
-        goTo:
-            function (
-                index
+    updateEventControls();
+
+
+    /* ========================================================
+       API PÚBLICA DE EVENTOS
+       ======================================================== */
+
+    window.ArcariusEventGateway = {
+
+        next() {
+
+            changeEvent(
+                1
+            );
+
+        },
+
+
+        previous() {
+
+            changeEvent(
+                -1
+            );
+
+        },
+
+
+        goTo(
+            index
+        ) {
+
+            if (
+                index < 0 ||
+                index >= sortedEvents.length
             ) {
 
-                if (
-                    index < 0 ||
-                    index >= sortedEvents.length
-                ) {
-
-                    return;
-                }
-
-
-                currentIndex =
-                    index;
-
-
-                showEvent(
-                    sortedEvents[
-                        currentIndex
-                    ],
-                    currentIndex
-                );
+                return;
 
             }
+
+
+            currentIndex =
+                index;
+
+
+            APP_STATE.events.currentIndex =
+                currentIndex;
+
+
+            showEvent(
+                sortedEvents[
+                    currentIndex
+                ],
+                currentIndex
+            );
+
+        },
+
+
+        getCurrent() {
+
+            return {
+
+                index:
+                    currentIndex,
+
+                event:
+                    sortedEvents[
+                        currentIndex
+                    ]
+
+            };
+
+        },
+
+
+        getAll() {
+
+            return [
+                ...sortedEvents
+            ];
+
+        }
 
     };
 
@@ -1991,50 +3921,1205 @@ function initEventsGateway() {
 
 
 /* ============================================================
+   GALERÍA
+   ARCARIUS — VISUAL ARCHIVE
+   ROOTS EXPERIENCE
+   ============================================================ */
+
+function initGallery() {
+
+    const section =
+        document.querySelector(
+            CONFIG.selectors.gallery
+        );
+
+
+    if (!section) {
+
+        return;
+
+    }
+
+
+    if (
+        APP_STATE.gallery.initialized
+    ) {
+
+        return;
+
+    }
+
+
+    APP_STATE.gallery.initialized =
+        true;
+
+
+    const items =
+        section.querySelectorAll(
+            CONFIG.selectors.galleryItems
+        );
+
+
+    if (!items.length) {
+
+        console.warn(
+            'ARCARIUS: No se encontraron elementos [data-gallery-item] dentro de #gallery.'
+        );
+
+
+        return;
+
+    }
+
+
+    /*
+     * --------------------------------------------------------
+     * PREPARACIÓN
+     * --------------------------------------------------------
+     */
+
+    items.forEach(
+        (
+            item,
+            index
+        ) => {
+
+            item.style.setProperty(
+                '--gallery-index',
+                index
+            );
+
+
+            const image =
+                item.querySelector(
+                    CONFIG.selectors.galleryImages
+                );
+
+
+            if (!image) {
+
+                item.classList.add(
+                    CONFIG.classes.galleryError
+                );
+
+
+                console.warn(
+                    'ARCARIUS: Elemento de galería sin imagen.',
+                    item
+                );
+
+
+                return;
+
+            }
+
+
+            initGalleryImage(
+                image,
+                item
+            );
+
+        }
+    );
+
+
+    /*
+     * --------------------------------------------------------
+     * REDUCED MOTION
+     * --------------------------------------------------------
+     */
+
+    if (
+        prefersReducedMotion()
+    ) {
+
+        items.forEach(
+            item => {
+
+                item.classList.add(
+                    CONFIG.classes.visible
+                );
+
+
+                item.style.setProperty(
+                    '--gallery-progress',
+                    '1'
+                );
+
+            }
+        );
+
+
+        initGalleryImages(
+            items
+        );
+
+
+        return;
+
+    }
+
+
+    /*
+     * --------------------------------------------------------
+     * VIEWPORT
+     * --------------------------------------------------------
+     */
+
+    initGalleryViewport(
+        items
+    );
+
+
+    /*
+     * --------------------------------------------------------
+     * RAÍCES
+     * --------------------------------------------------------
+     */
+
+    initGalleryRoots(
+        section
+    );
+
+
+    /*
+     * --------------------------------------------------------
+     * PARALLAX DESKTOP
+     * --------------------------------------------------------
+     */
+
+    const hasFinePointer =
+        window.matchMedia(
+            '(hover: hover) and (pointer: fine)'
+        ).matches;
+
+
+    const hasTouch =
+        (
+            'ontouchstart' in window
+        ) ||
+        (
+            navigator.maxTouchPoints > 0
+        );
+
+
+    if (
+        hasFinePointer &&
+        !hasTouch
+    ) {
+
+        initGalleryPointer(
+            items
+        );
+
+    }
+
+
+    /*
+     * --------------------------------------------------------
+     * TOUCH / ANDROID
+     * --------------------------------------------------------
+     */
+
+    if (
+        hasTouch ||
+        !hasFinePointer
+    ) {
+
+        initGalleryTouchFocus(
+            items
+        );
+
+    }
+
+
+    /*
+     * --------------------------------------------------------
+     * CARGA
+     * --------------------------------------------------------
+     */
+
+    initGalleryImages(
+        items
+    );
+
+}
+
+
+/* ============================================================
+   GALLERY
+   CARGA DE IMÁGENES
+   ============================================================ */
+
+function initGalleryImage(
+    image,
+    item
+) {
+
+    if (
+        !image ||
+        !item
+    ) {
+
+        return;
+
+    }
+
+
+    const markLoaded =
+        () => {
+
+            image.classList.add(
+                CONFIG.classes.galleryLoaded
+            );
+
+
+            image.classList.remove(
+                CONFIG.classes.galleryError
+            );
+
+
+            item.classList.add(
+                CONFIG.classes.galleryLoaded
+            );
+
+
+            item.classList.remove(
+                CONFIG.classes.galleryError
+            );
+
+        };
+
+
+    const markError =
+        () => {
+
+            image.classList.remove(
+                CONFIG.classes.galleryLoaded
+            );
+
+
+            image.classList.add(
+                CONFIG.classes.galleryError
+            );
+
+
+            item.classList.remove(
+                CONFIG.classes.galleryLoaded
+            );
+
+
+            item.classList.add(
+                CONFIG.classes.galleryError
+            );
+
+
+            console.error(
+                'ARCARIUS: No se pudo cargar la imagen de la galería:',
+                image.currentSrc ||
+                image.src
+            );
+
+        };
+
+
+    image.addEventListener(
+        'load',
+        markLoaded,
+        {
+            once:
+                true
+        }
+    );
+
+
+    image.addEventListener(
+        'error',
+        markError,
+        {
+            once:
+                true
+        }
+    );
+
+
+    /*
+     * La imagen puede haber terminado
+     * de cargar antes de inicializar JS.
+     */
+
+    if (
+        image.complete
+    ) {
+
+        if (
+            image.naturalWidth > 0
+        ) {
+
+            markLoaded();
+
+        } else {
+
+            markError();
+
+        }
+
+    }
+
+}
+
+
+/* ============================================================
+   GALLERY
+   REVELADO POR IMAGEN
+   ============================================================ */
+
+function initGalleryImages(
+    items
+) {
+
+    items.forEach(
+        item => {
+
+            const image =
+                item.querySelector(
+                    CONFIG.selectors.galleryImages
+                );
+
+
+            if (!image) {
+
+                return;
+
+            }
+
+
+            /*
+             * Si ya está disponible,
+             * marcar inmediatamente.
+             */
+
+            if (
+                image.complete &&
+                image.naturalWidth > 0
+            ) {
+
+                item.classList.add(
+                    CONFIG.classes.galleryLoaded
+                );
+
+
+                image.classList.add(
+                    CONFIG.classes.galleryLoaded
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   GALLERY
+   VIEWPORT / REVEAL
+   ============================================================ */
+
+function initGalleryViewport(
+    items
+) {
+
+    if (
+        !('IntersectionObserver' in window)
+    ) {
+
+        items.forEach(
+            item => {
+
+                item.classList.add(
+                    CONFIG.classes.visible
+                );
+
+
+                item.style.setProperty(
+                    '--gallery-progress',
+                    '1'
+                );
+
+            }
+        );
+
+
+        return;
+
+    }
+
+
+    const observer =
+        new IntersectionObserver(
+            entries => {
+
+                entries.forEach(
+                    entry => {
+
+                        const item =
+                            entry.target;
+
+
+                        if (
+                            entry.isIntersecting
+                        ) {
+
+                            item.classList.add(
+                                CONFIG.classes.visible
+                            );
+
+
+                            item.style.setProperty(
+                                '--gallery-progress',
+                                '1'
+                            );
+
+
+                            observer.unobserve(
+                                item
+                            );
+
+                        }
+
+                    }
+                );
+
+            },
+            {
+
+                threshold:
+                    0.16,
+
+                rootMargin:
+                    '0px 0px -60px 0px'
+
+            }
+        );
+
+
+    items.forEach(
+        item => {
+
+            observer.observe(
+                item
+            );
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   GALLERY
+   RAÍCES / MOVIMIENTO ORGÁNICO
+   ============================================================ */
+
+function initGalleryRoots(
+    section
+) {
+
+    const roots =
+        section.querySelectorAll(
+            CONFIG.selectors.galleryRoots
+        );
+
+
+    const field =
+        section.querySelector(
+            CONFIG.selectors.galleryField
+        );
+
+
+    if (
+        !roots.length ||
+        !field
+    ) {
+
+        return;
+
+    }
+
+
+    /*
+     * En dispositivos con movimiento reducido
+     * dejamos las raíces quietas.
+     */
+
+    if (
+        prefersReducedMotion()
+    ) {
+
+        return;
+
+    }
+
+
+    let frame =
+        null;
+
+
+    let ticking =
+        false;
+
+
+    const update =
+        () => {
+
+            frame =
+                null;
+
+            ticking =
+                false;
+
+
+            const rect =
+                field.getBoundingClientRect();
+
+
+            const viewportHeight =
+                window.innerHeight ||
+                document.documentElement.clientHeight;
+
+
+            if (
+                rect.height <= 0
+            ) {
+
+                return;
+
+            }
+
+
+            const center =
+                viewportHeight / 2;
+
+
+            const fieldCenter =
+                rect.top +
+                (
+                    rect.height / 2
+                );
+
+
+            const distance =
+                (
+                    center -
+                    fieldCenter
+                ) /
+                viewportHeight;
+
+
+            const clamped =
+                Math.max(
+                    -1,
+                    Math.min(
+                        1,
+                        distance
+                    )
+                );
+
+
+            roots.forEach(
+                (
+                    root,
+                    index
+                ) => {
+
+                    const multiplier =
+                        (
+                            index % 2 === 0
+                        )
+                            ? 14
+                            : -11;
+
+
+                    const y =
+                        clamped *
+                        multiplier;
+
+
+                    root.style.setProperty(
+                        '--root-scroll-y',
+                        `${y}px`
+                    );
+
+                }
+            );
+
+        };
+
+
+    const requestUpdate =
+        () => {
+
+            if (ticking) {
+
+                return;
+
+            }
+
+
+            ticking =
+                true;
+
+
+            frame =
+                requestAnimationFrame(
+                    update
+                );
+
+        };
+
+
+    window.addEventListener(
+        'scroll',
+        requestUpdate,
+        {
+            passive:
+                true
+        }
+    );
+
+
+    window.addEventListener(
+        'resize',
+        requestUpdate,
+        {
+            passive:
+                true
+        }
+    );
+
+
+    requestUpdate();
+
+}
+
+
+/* ============================================================
+   GALLERY
+   DESKTOP PARALLAX
+   ============================================================ */
+
+function initGalleryPointer(
+    items
+) {
+
+    items.forEach(
+        item => {
+
+            const image =
+                item.querySelector(
+                    CONFIG.selectors.galleryImages
+                );
+
+
+            const light =
+                item.querySelector(
+                    '.gallery-item__light'
+                );
+
+
+            if (!image) {
+
+                return;
+
+            }
+
+
+            let frame =
+                null;
+
+
+            let pointerX =
+                0;
+
+
+            let pointerY =
+                0;
+
+
+            let active =
+                false;
+
+
+            const update =
+                () => {
+
+                    frame =
+                        null;
+
+
+                    if (!active) {
+
+                        return;
+
+                    }
+
+
+                    const rect =
+                        item.getBoundingClientRect();
+
+
+                    if (
+                        rect.width <= 0 ||
+                        rect.height <= 0
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    const relativeX =
+                        (
+                            pointerX -
+                            rect.left
+                        ) /
+                        rect.width;
+
+
+                    const relativeY =
+                        (
+                            pointerY -
+                            rect.top
+                        ) /
+                        rect.height;
+
+
+                    const normalizedX =
+                        relativeX -
+                        0.5;
+
+
+                    const normalizedY =
+                        relativeY -
+                        0.5;
+
+
+                    /*
+                     * Movimiento fotográfico.
+                     */
+
+                    const imageX =
+                        normalizedX *
+                        -18;
+
+
+                    const imageY =
+                        normalizedY *
+                        -14;
+
+
+                    image.style.transform =
+                        `scale(1.07)
+                         translate3d(
+                            ${imageX}px,
+                            ${imageY}px,
+                            0
+                         )`;
+
+
+                    /*
+                     * Luz.
+                     */
+
+                    if (light) {
+
+                        const lightX =
+                            relativeX *
+                            100;
+
+
+                        const lightY =
+                            relativeY *
+                            100;
+
+
+                        light.style.setProperty(
+                            '--gallery-light-x',
+                            `${lightX}%`
+                        );
+
+
+                        light.style.setProperty(
+                            '--gallery-light-y',
+                            `${lightY}%`
+                        );
+
+                    }
+
+
+                    /*
+                     * Coordenadas disponibles
+                     * para CSS.
+                     */
+
+                    item.style.setProperty(
+                        '--gallery-pointer-x',
+                        `${relativeX * 100}%`
+                    );
+
+
+                    item.style.setProperty(
+                        '--gallery-pointer-y',
+                        `${relativeY * 100}%`
+                    );
+
+                };
+
+
+            const requestUpdate =
+                () => {
+
+                    if (!frame) {
+
+                        frame =
+                            requestAnimationFrame(
+                                update
+                            );
+
+                    }
+
+                };
+
+
+            /*
+             * ENTRADA
+             */
+
+            item.addEventListener(
+                'pointerenter',
+                event => {
+
+                    active =
+                        true;
+
+
+                    item.classList.add(
+                        'is-hovering'
+                    );
+
+
+                    pointerX =
+                        event.clientX;
+
+
+                    pointerY =
+                        event.clientY;
+
+
+                    requestUpdate();
+
+                }
+            );
+
+
+            /*
+             * MOVIMIENTO
+             */
+
+            item.addEventListener(
+                'pointermove',
+                event => {
+
+                    if (!active) {
+
+                        return;
+
+                    }
+
+
+                    pointerX =
+                        event.clientX;
+
+
+                    pointerY =
+                        event.clientY;
+
+
+                    requestUpdate();
+
+                }
+            );
+
+
+            /*
+             * SALIDA
+             */
+
+            item.addEventListener(
+                'pointerleave',
+                () => {
+
+                    active =
+                        false;
+
+
+                    item.classList.remove(
+                        'is-hovering'
+                    );
+
+
+                    if (frame) {
+
+                        cancelAnimationFrame(
+                            frame
+                        );
+
+
+                        frame =
+                            null;
+
+                    }
+
+
+                    /*
+                     * Volver al estado natural.
+                     */
+
+                    image.style.transform =
+                        '';
+
+
+                    item.style.removeProperty(
+                        '--gallery-pointer-x'
+                    );
+
+
+                    item.style.removeProperty(
+                        '--gallery-pointer-y'
+                    );
+
+
+                    if (light) {
+
+                        light.style.removeProperty(
+                            '--gallery-light-x'
+                        );
+
+
+                        light.style.removeProperty(
+                            '--gallery-light-y'
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   GALLERY
+   TOUCH / ANDROID
+   ============================================================ */
+
+function initGalleryTouchFocus(
+    items
+) {
+
+    items.forEach(
+        item => {
+
+            item.addEventListener(
+                'click',
+                event => {
+
+                    /*
+                     * No interferir con enlaces
+                     * internos o externos si algún
+                     * día se agregan.
+                     */
+
+                    if (
+                        event.target.closest(
+                            'a'
+                        )
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    const alreadyFocused =
+                        item.classList.contains(
+                            CONFIG.classes.galleryFocus
+                        );
+
+
+                    /*
+                     * Cerrar todas las demás.
+                     */
+
+                    items.forEach(
+                        otherItem => {
+
+                            if (
+                                otherItem !== item
+                            ) {
+
+                                otherItem.classList.remove(
+                                    CONFIG.classes.galleryFocus
+                                );
+
+                            }
+
+                        }
+                    );
+
+
+                    /*
+                     * Alternar actual.
+                     */
+
+                    item.classList.toggle(
+                        CONFIG.classes.galleryFocus,
+                        !alreadyFocused
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
+    /*
+     * Al tocar fuera de una fotografía,
+     * cerrar el foco activo.
+     */
+
+    document.addEventListener(
+        'pointerdown',
+        event => {
+
+            if (
+                event.target.closest(
+                    '[data-gallery-item]'
+                )
+            ) {
+
+                return;
+
+            }
+
+
+            items.forEach(
+                item => {
+
+                    item.classList.remove(
+                        CONFIG.classes.galleryFocus
+                    );
+
+                }
+            );
+
+        },
+        {
+            passive:
+                true
+        }
+    );
+
+}
+
+
+
+/* ============================================================
    TICKETS
    ============================================================ */
 
 function initTicket() {
 
-    const ticket =
-        document.querySelector(
+    const tickets =
+        document.querySelectorAll(
             CONFIG.selectors.ticket
         );
 
 
-    if (!ticket) {
+    if (!tickets.length) {
+
         return;
+
     }
 
 
-    /*
-     * NO inventamos plataforma
-     * de boletería.
-     *
-     * Cuando tengas la URL real:
-     *
-     * ticket.href = 'URL_REAL';
-     */
+    tickets.forEach(
+        ticket => {
+
+            /*
+             * Estado inicial:
+             * el botón queda preparado para
+             * recibir posteriormente la URL
+             * oficial de la plataforma externa.
+             */
+
+            const href =
+                ticket.getAttribute('href');
 
 
-    ticket.addEventListener(
-        'click',
-        event => {
+            /*
+             * Si todavía no existe una
+             * URL oficial, evitamos que
+             * el usuario sea enviado a "#".
+             */
 
             if (
-                ticket.getAttribute(
-                    'href'
-                ) === '#'
+                !href ||
+                href === '#' ||
+                href.trim() === ''
             ) {
 
-                event.preventDefault();
+                ticket.setAttribute(
+                    'aria-disabled',
+                    'true'
+                );
 
 
-                console.info(
-                    'Arcarius Fest: falta configurar la URL oficial de boletería.'
+                ticket.addEventListener(
+                    'click',
+                    event => {
+
+                        event.preventDefault();
+
+
+                        console.info(
+                            'Arcarius Fest: falta configurar la URL oficial de boletería.'
+                        );
+
+                    }
                 );
 
             }
+
+
+            /*
+             * Si posteriormente se configura
+             * una URL externa real, el enlace
+             * funcionará normalmente.
+             *
+             * El HTML ya utiliza:
+             *
+             * target="_blank"
+             * rel="noopener noreferrer"
+             *
+             * por lo que la plataforma externa
+             * se abrirá en una nueva pestaña.
+             */
 
         }
     );
@@ -2053,6 +5138,13 @@ function initCurrentYear() {
         document.querySelectorAll(
             CONFIG.selectors.currentYear
         );
+
+
+    if (!elements.length) {
+
+        return;
+
+    }
 
 
     const year =
@@ -2078,6 +5170,15 @@ function initCurrentYear() {
 
 function prefersReducedMotion() {
 
+    if (
+        !window.matchMedia
+    ) {
+
+        return false;
+
+    }
+
+
     return window.matchMedia(
         '(prefers-reduced-motion: reduce)'
     ).matches;
@@ -2090,9 +5191,13 @@ function prefersReducedMotion() {
    HTML ESCAPING
    ============================================================ */
 
-function escapeHTML(value) {
+function escapeHTML(
+    value
+) {
 
-    return String(value)
+    return String(
+        value
+    )
 
         .replace(
             /&/g,
@@ -2132,11 +5237,9 @@ window.ArcariusFest = {
     prefersReducedMotion,
 
 
-    /*
-     * Cerrar menú móvil
-     * desde cualquier parte
-     * del sitio.
-     */
+    /* --------------------------------------------------------
+       CERRAR MENÚ
+       -------------------------------------------------------- */
 
     closeMobileMenu() {
 
@@ -2153,7 +5256,9 @@ window.ArcariusFest = {
 
 
         if (!menu) {
+
             return;
+
         }
 
 
@@ -2183,15 +5288,161 @@ window.ArcariusFest = {
             CONFIG.classes.modal
         );
 
+    },
+
+
+    /* --------------------------------------------------------
+       OBTENER EVENTOS
+       -------------------------------------------------------- */
+
+    getEvents() {
+
+        return (
+            window.ArcariusEvents ||
+            []
+        );
+
+    },
+
+
+    /* --------------------------------------------------------
+       SIGUIENTE EVENTO
+       -------------------------------------------------------- */
+
+    nextEvent() {
+
+        if (
+            window.ArcariusEventGateway
+        ) {
+
+            window.ArcariusEventGateway.next();
+
+        }
+
+    },
+
+
+    /* --------------------------------------------------------
+       EVENTO ANTERIOR
+       -------------------------------------------------------- */
+
+    previousEvent() {
+
+        if (
+            window.ArcariusEventGateway
+        ) {
+
+            window.ArcariusEventGateway.previous();
+
+        }
+
+    },
+
+
+    /* --------------------------------------------------------
+       IR A EVENTO
+       -------------------------------------------------------- */
+
+    goToEvent(
+        index
+    ) {
+
+        if (
+            window.ArcariusEventGateway
+        ) {
+
+            window.ArcariusEventGateway.goTo(
+                index
+            );
+
+        }
+
+    },
+
+
+    /* --------------------------------------------------------
+       OBTENER EVENTO ACTUAL
+       -------------------------------------------------------- */
+
+    getCurrentEvent() {
+
+        if (
+            window.ArcariusEventGateway
+        ) {
+
+            return (
+                window.ArcariusEventGateway.getCurrent()
+            );
+
+        }
+
+
+        return null;
+
+    },
+
+
+    /* --------------------------------------------------------
+       GALERÍA
+       OBTENER ELEMENTOS
+       -------------------------------------------------------- */
+
+    getGalleryItems() {
+
+        return Array.from(
+            document.querySelectorAll(
+                CONFIG.selectors.galleryItems
+            )
+        );
+
+    },
+
+
+    /* --------------------------------------------------------
+       GALERÍA
+       ACTIVAR / DESACTIVAR FOCO
+       -------------------------------------------------------- */
+
+    focusGalleryItem(
+        index
+    ) {
+
+        const items =
+            document.querySelectorAll(
+                CONFIG.selectors.galleryItems
+            );
+
+
+        if (
+            index < 0 ||
+            index >= items.length
+        ) {
+
+            return;
+
+        }
+
+
+        items.forEach(
+            item => {
+
+                item.classList.remove(
+                    CONFIG.classes.galleryFocus
+                );
+
+            }
+        );
+
+
+        items[index].classList.add(
+            CONFIG.classes.galleryFocus
+        );
+
     }
 
 };
 
 
-
 /* ============================================================
    END
    ============================================================ */
-
-
-
