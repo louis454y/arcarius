@@ -1,9 +1,8 @@
-
 /* ============================================================
    ARCARIUS FEST
    BACKGROUND AUDIO SYSTEM
    Sistema independiente
-   Pausa al salir / reanuda al regresar
+   Autoplay + interacción + pausa/reanudación
    ============================================================ */
 
 (() => {
@@ -11,9 +10,9 @@
     'use strict';
 
 
-    /* --------------------------------------------------------
+    /* ========================================================
        CONFIGURACIÓN
-       -------------------------------------------------------- */
+       ======================================================== */
 
     const CONFIG = {
 
@@ -27,14 +26,17 @@
             true,
 
         fadeDuration:
-            1800
+            1800,
+
+        resumeOnReturn:
+            true
 
     };
 
 
-    /* --------------------------------------------------------
-       CREAR AUDIO
-       -------------------------------------------------------- */
+    /* ========================================================
+       CREAR ELEMENTO DE AUDIO
+       ======================================================== */
 
     const audio =
         document.createElement('audio');
@@ -49,57 +51,107 @@
     audio.loop =
         CONFIG.loop;
 
+    audio.preload =
+        'auto';
+
     audio.volume =
         0;
 
-    audio.preload =
-        'auto';
+    audio.controls =
+        false;
+
+    audio.muted =
+        false;
 
     audio.setAttribute(
         'playsinline',
         ''
     );
 
-    audio.controls =
-        false;
-
     audio.style.display =
         'none';
 
 
-    document.body.appendChild(audio);
+    document.body.appendChild(
+        audio
+    );
 
 
-    /* --------------------------------------------------------
-       ESTADO
-       -------------------------------------------------------- */
+    /* ========================================================
+       ESTADO DEL SISTEMA
+       ======================================================== */
 
     let isPlaying =
         false;
 
+    let userHasInteracted =
+        false;
+
     let wasPlayingBeforeHidden =
+        false;
+
+    let waitingForInteraction =
         false;
 
     let fadeTimer =
         null;
 
 
-    /* --------------------------------------------------------
+    /* ========================================================
+       UTILIDADES
+       ======================================================== */
+
+    function clearFade() {
+
+        if (
+            fadeTimer !== null
+        ) {
+
+            clearInterval(
+                fadeTimer
+            );
+
+            fadeTimer =
+                null;
+
+        }
+
+    }
+
+
+    function setAudioState(
+        playing
+    ) {
+
+        isPlaying =
+            playing;
+
+
+        document.documentElement
+            .classList
+            .toggle(
+                'arcarius-audio-playing',
+                playing
+            );
+
+    }
+
+
+    /* ========================================================
        FADE IN
-       -------------------------------------------------------- */
+       ======================================================== */
 
     function fadeIn() {
 
-        clearInterval(
-            fadeTimer
-        );
+        clearFade();
 
 
         const steps =
             30;
 
         const stepTime =
-            CONFIG.fadeDuration / steps;
+            CONFIG.fadeDuration /
+            steps;
 
         let currentStep =
             0;
@@ -116,23 +168,25 @@
 
 
                 const progress =
-                    currentStep / steps;
+                    currentStep /
+                    steps;
 
 
                 audio.volume =
                     Math.min(
-                        CONFIG.volume * progress,
+                        CONFIG.volume *
+                        progress,
                         CONFIG.volume
                     );
 
 
                 if (
-                    currentStep >= steps
+                    currentStep >=
+                    steps
                 ) {
 
-                    clearInterval(
-                        fadeTimer
-                    );
+                    clearFade();
+
 
                     audio.volume =
                         CONFIG.volume;
@@ -144,232 +198,220 @@
     }
 
 
-    /* --------------------------------------------------------
-       FADE OUT
-       -------------------------------------------------------- */
+    /* ========================================================
+       REPRODUCIR AUDIO
+       ======================================================== */
 
-    function fadeOut(
-        callback
+    async function playAudio(
+        options = {}
     ) {
 
-        clearInterval(
-            fadeTimer
-        );
+        const {
+
+            fade = true
+
+        } = options;
 
 
-        const startVolume =
-            audio.volume;
-
-        const steps =
-            15;
-
-        const duration =
-            300;
-
-        const stepTime =
-            duration / steps;
-
-        let currentStep =
-            0;
-
-
-        fadeTimer =
-            setInterval(() => {
-
-                currentStep++;
-
-
-                const progress =
-                    currentStep / steps;
-
-
-                audio.volume =
-                    Math.max(
-                        startVolume *
-                        (1 - progress),
-                        0
-                    );
-
-
-                if (
-                    currentStep >= steps
-                ) {
-
-                    clearInterval(
-                        fadeTimer
-                    );
-
-                    audio.volume =
-                        0;
-
-
-                    if (
-                        typeof callback ===
-                        'function'
-                    ) {
-
-                        callback();
-
-                    }
-
-                }
-
-            }, stepTime);
-
-    }
-
-
-    /* --------------------------------------------------------
-       REPRODUCIR
-       -------------------------------------------------------- */
-
-    function playAudio() {
-
-        audio.play()
-            .then(() => {
-
-                isPlaying =
-                    true;
-
-                fadeIn();
-
-
-                document.documentElement
-                    .classList
-                    .add(
-                        'arcarius-audio-playing'
-                    );
-
-            })
-            .catch(() => {
-
-                /*
-                 * El navegador bloqueó
-                 * el autoplay.
-                 *
-                 * Esperamos una interacción.
-                 */
-
-            });
-
-    }
-
-
-    /* --------------------------------------------------------
-       PAUSAR
-       -------------------------------------------------------- */
-
-    function pauseAudio() {
+        /*
+         * Si ya está reproduciéndose,
+         * no hacemos otra llamada.
+         */
 
         if (
-            !isPlaying
+            isPlaying &&
+            !audio.paused
         ) {
 
-            return;
+            return true;
 
         }
 
 
-        clearInterval(
-            fadeTimer
-        );
-
-
         /*
-         * Guardamos que la música
-         * estaba reproduciéndose.
+         * El audio debe permanecer
+         * sin mute para que el navegador
+         * detecte correctamente que se
+         * trata de reproducción audible.
          */
 
-        wasPlayingBeforeHidden =
-            true;
-
-
-        /*
-         * Pausamos inmediatamente.
-         *
-         * currentTime permanece intacto.
-         */
-
-        audio.pause();
-
-
-        isPlaying =
+        audio.muted =
             false;
 
 
-        audio.volume =
-            CONFIG.volume;
+        try {
+
+            await audio.play();
 
 
-        document.documentElement
-            .classList
-            .remove(
-                'arcarius-audio-playing'
+            /*
+             * AUTOPLAY O INTERACCIÓN
+             * PERMITIDA.
+             */
+
+            setAudioState(
+                true
             );
+
+
+            waitingForInteraction =
+                false;
+
+
+            if (
+                fade
+            ) {
+
+                fadeIn();
+
+            } else {
+
+                clearFade();
+
+                audio.volume =
+                    CONFIG.volume;
+
+            }
+
+
+            return true;
+
+        }
+
+        catch (
+            error
+        ) {
+
+            /*
+             * El navegador bloqueó
+             * el autoplay.
+             *
+             * Esto es normal en
+             * navegadores con políticas
+             * de autoplay.
+             */
+
+            waitingForInteraction =
+                true;
+
+
+            setAudioState(
+                false
+            );
+
+
+            return false;
+
+        }
 
     }
 
 
-    /* --------------------------------------------------------
-       REANUDAR
-       -------------------------------------------------------- */
+    /* ========================================================
+       PAUSAR AUDIO
+       ======================================================== */
 
-    function resumeAudio() {
+    function pauseAudio(
+        remember = true
+    ) {
+
+        clearFade();
+
 
         /*
-         * Si la música no estaba
-         * sonando antes de salir,
-         * no hacemos nada.
+         * Guardamos que estaba
+         * reproduciéndose antes
+         * de la pausa.
+         */
+
+        if (
+            remember &&
+            !audio.paused
+        ) {
+
+            wasPlayingBeforeHidden =
+                true;
+
+        }
+
+
+        audio.pause();
+
+
+        setAudioState(
+            false
+        );
+
+
+        /*
+         * No modificamos currentTime.
+         *
+         * El navegador conservará
+         * exactamente la posición.
+         */
+
+        audio.volume =
+            CONFIG.volume;
+
+    }
+
+
+    /* ========================================================
+       REANUDAR AUDIO
+       ======================================================== */
+
+    async function resumeAudio() {
+
+        /*
+         * Solo reanudamos si estaba
+         * sonando antes de salir.
          */
 
         if (
             !wasPlayingBeforeHidden
         ) {
 
-            return;
+            return false;
 
         }
 
 
-        audio.play()
-            .then(() => {
+        /*
+         * Si el usuario todavía no
+         * ha interactuado y el navegador
+         * bloquea el autoplay, esperamos
+         * una interacción real.
+         */
 
-                isPlaying =
-                    true;
-
-                fadeIn();
-
-
-                document.documentElement
-                    .classList
-                    .add(
-                        'arcarius-audio-playing'
-                    );
-
-            })
-            .catch(() => {
-
-                /*
-                 * Si el navegador vuelve
-                 * a bloquear el audio,
-                 * esperamos interacción.
-                 */
-
-                waitForInteraction();
-
+        const started =
+            await playAudio({
+                fade: true
             });
+
+
+        return started;
 
     }
 
 
-    /* --------------------------------------------------------
-       PRIMERA INTERACCIÓN
-       -------------------------------------------------------- */
+    /* ========================================================
+       PRIMERA INTERACCIÓN DEL USUARIO
+       ======================================================== */
 
-    function handleFirstInteraction() {
+    async function handleUserInteraction() {
+
+        userHasInteracted =
+            true;
+
+
+        /*
+         * Si ya está sonando,
+         * no hacemos nada.
+         */
 
         if (
-            isPlaying
+            isPlaying &&
+            !audio.paused
         ) {
 
             return;
@@ -378,65 +420,99 @@
 
 
         /*
-         * Si estamos regresando a la
-         * página y la música estaba
-         * activa antes, intentamos
-         * continuar.
+         * Si estaba sonando antes
+         * de cambiar de pestaña,
+         * intentamos continuar.
          */
 
         if (
             wasPlayingBeforeHidden
         ) {
 
-            resumeAudio();
+            const resumed =
+                await resumeAudio();
 
-        } else {
 
-            playAudio();
+            if (
+                resumed
+            ) {
+
+                removeInteractionListeners();
+
+            }
+
+
+            return;
 
         }
 
 
-        removeInteractionListeners();
+        /*
+         * Primera reproducción.
+         */
+
+        const started =
+            await playAudio({
+                fade: true
+            });
+
+
+        if (
+            started
+        ) {
+
+            removeInteractionListeners();
+
+        }
 
     }
 
 
-    function waitForInteraction() {
+    /* ========================================================
+       LISTENERS DE INTERACCIÓN
+       ======================================================== */
 
-        window.addEventListener(
-            'pointerdown',
-            handleFirstInteraction,
-            {
-                passive: true,
-                once: true
-            }
-        );
+    const interactionEvents = [
 
-        window.addEventListener(
-            'touchstart',
-            handleFirstInteraction,
-            {
-                passive: true,
-                once: true
-            }
-        );
+        'pointerdown',
 
-        window.addEventListener(
-            'keydown',
-            handleFirstInteraction,
-            {
-                passive: true,
-                once: true
-            }
-        );
+        'touchstart',
 
-        window.addEventListener(
-            'scroll',
-            handleFirstInteraction,
-            {
-                passive: true,
-                once: true
+        'keydown',
+
+        'scroll'
+
+    ];
+
+
+    function addInteractionListeners() {
+
+        if (
+            !waitingForInteraction
+        ) {
+
+            /*
+             * Aunque el autoplay todavía
+             * no haya sido rechazado,
+             * mantenemos preparados los
+             * eventos para el caso en que
+             * el navegador bloquee el audio.
+             */
+
+        }
+
+
+        interactionEvents.forEach(
+            eventName => {
+
+                window.addEventListener(
+                    eventName,
+                    handleUserInteraction,
+                    {
+                        passive: true
+                    }
+                );
+
             }
         );
 
@@ -445,36 +521,27 @@
 
     function removeInteractionListeners() {
 
-        window.removeEventListener(
-            'pointerdown',
-            handleFirstInteraction
-        );
+        interactionEvents.forEach(
+            eventName => {
 
-        window.removeEventListener(
-            'touchstart',
-            handleFirstInteraction
-        );
+                window.removeEventListener(
+                    eventName,
+                    handleUserInteraction
+                );
 
-        window.removeEventListener(
-            'keydown',
-            handleFirstInteraction
-        );
-
-        window.removeEventListener(
-            'scroll',
-            handleFirstInteraction
+            }
         );
 
     }
 
 
-    /* --------------------------------------------------------
+    /* ========================================================
        VISIBILIDAD DE LA PÁGINA
-       -------------------------------------------------------- */
+       ======================================================== */
 
     document.addEventListener(
         'visibilitychange',
-        () => {
+        async () => {
 
             if (
                 document.hidden
@@ -485,15 +552,53 @@
                  * pestaña o minimizó la ventana.
                  */
 
-                pauseAudio();
+                if (
+                    isPlaying &&
+                    !audio.paused
+                ) {
+
+                    wasPlayingBeforeHidden =
+                        true;
+
+                    pauseAudio(
+                        false
+                    );
+
+                }
 
             } else {
 
                 /*
-                 * La persona volvió.
+                 * La persona regresó.
                  */
 
-                resumeAudio();
+                if (
+                    CONFIG.resumeOnReturn &&
+                    wasPlayingBeforeHidden
+                ) {
+
+                    const resumed =
+                        await resumeAudio();
+
+
+                    /*
+                     * Si el navegador bloquea
+                     * la reproducción al volver,
+                     * dejamos preparado el
+                     * sistema para la próxima
+                     * interacción.
+                     */
+
+                    if (
+                        !resumed
+                    ) {
+
+                        waitingForInteraction =
+                            true;
+
+                    }
+
+                }
 
             }
 
@@ -501,131 +606,241 @@
     );
 
 
-    /* --------------------------------------------------------
-       BLUR / FOCUS
-       -------------------------------------------------------- */
+    /* ========================================================
+       BLUR
+       ======================================================== */
 
     window.addEventListener(
         'blur',
         () => {
 
             /*
-             * visibilitychange es el sistema
-             * principal.
+             * Solo pausamos mediante blur
+             * si la página realmente dejó
+             * de estar visible.
              *
-             * Este evento sirve como respaldo.
+             * Esto evita pausar la música
+             * simplemente porque el usuario
+             * hizo clic en otro elemento.
              */
 
             if (
-                document.hidden
-            ) {
-
-                pauseAudio();
-
-            }
-
-        }
-    );
-
-
-    window.addEventListener(
-        'focus',
-        () => {
-
-            if (
-                !document.hidden
-            ) {
-
-                resumeAudio();
-
-            }
-
-        }
-    );
-
-
-    /* --------------------------------------------------------
-       INTERACCIONES INICIALES
-       -------------------------------------------------------- */
-
-    window.addEventListener(
-        'pointerdown',
-        handleFirstInteraction,
-        {
-            passive: true
-        }
-    );
-
-    window.addEventListener(
-        'touchstart',
-        handleFirstInteraction,
-        {
-            passive: true
-        }
-    );
-
-    window.addEventListener(
-        'keydown',
-        handleFirstInteraction,
-        {
-            passive: true
-        }
-    );
-
-    window.addEventListener(
-        'scroll',
-        handleFirstInteraction,
-        {
-            passive: true
-        }
-    );
-
-
-    /* --------------------------------------------------------
-       API PÚBLICA
-       -------------------------------------------------------- */
-
-    window.ArcariusAudio = {
-
-        play:
-            playAudio,
-
-        pause:
-            pauseAudio,
-
-        resume:
-            resumeAudio,
-
-        toggle() {
-
-            if (
+                document.hidden &&
                 isPlaying
             ) {
 
-                pauseAudio();
-
-            } else {
-
                 wasPlayingBeforeHidden =
                     true;
+
+                pauseAudio(
+                    false
+                );
+
+            }
+
+        }
+    );
+
+
+    /* ========================================================
+       FOCUS
+       ======================================================== */
+
+    window.addEventListener(
+        'focus',
+        async () => {
+
+            /*
+             * visibilitychange es el sistema
+             * principal.
+             *
+             * Focus funciona como respaldo.
+             */
+
+            if (
+                !document.hidden &&
+                wasPlayingBeforeHidden
+            ) {
+
+                const resumed =
+                    await resumeAudio();
+
+
+                if (
+                    !resumed
+                ) {
+
+                    waitingForInteraction =
+                        true;
+
+                }
+
+            }
+
+        }
+    );
+
+
+    /* ========================================================
+       EVENTOS DEL AUDIO
+       ======================================================== */
+
+    audio.addEventListener(
+        'playing',
+        () => {
+
+            setAudioState(
+                true
+            );
+
+        }
+    );
+
+
+    audio.addEventListener(
+        'pause',
+        () => {
+
+            /*
+             * No modificamos
+             * wasPlayingBeforeHidden aquí.
+             *
+             * La pausa puede haber sido
+             * provocada por el sistema.
+             */
+
+            if (
+                audio.paused
+            ) {
+
+                setAudioState(
+                    false
+                );
+
+            }
+
+        }
+    );
+
+
+    audio.addEventListener(
+        'ended',
+        () => {
+
+            if (
+                CONFIG.loop
+            ) {
+
+                audio.currentTime =
+                    0;
 
                 playAudio();
 
             }
 
+        }
+    );
+
+
+    audio.addEventListener(
+        'error',
+        () => {
+
+            console.error(
+                'Arcarius Fest: no se pudo cargar el archivo de audio.',
+                audio.error
+            );
+
+        }
+    );
+
+
+    /* ========================================================
+       API PÚBLICA
+       ======================================================== */
+
+    window.ArcariusAudio = {
+
+        play() {
+
+            wasPlayingBeforeHidden =
+                true;
+
+            return playAudio({
+                fade: true
+            });
+
         },
+
+
+        pause() {
+
+            wasPlayingBeforeHidden =
+                false;
+
+            pauseAudio(
+                false
+            );
+
+        },
+
+
+        resume() {
+
+            wasPlayingBeforeHidden =
+                true;
+
+            return resumeAudio();
+
+        },
+
+
+        toggle() {
+
+            if (
+                isPlaying &&
+                !audio.paused
+            ) {
+
+                wasPlayingBeforeHidden =
+                    false;
+
+                pauseAudio(
+                    false
+                );
+
+                return false;
+
+            }
+
+
+            wasPlayingBeforeHidden =
+                true;
+
+
+            return playAudio({
+                fade: true
+            });
+
+        },
+
 
         isPlaying() {
 
-            return isPlaying;
+            return (
+                isPlaying &&
+                !audio.paused
+            );
 
         },
+
 
         getCurrentTime() {
 
             return audio.currentTime;
 
         },
+
 
         setVolume(
             volume
@@ -659,13 +874,34 @@
     };
 
 
-    /* --------------------------------------------------------
-       ARRANQUE
-       -------------------------------------------------------- */
+    /* ========================================================
+       INICIALIZACIÓN
+       ======================================================== */
 
-    function attemptAutoplay() {
+    function initializeAudio() {
 
-        playAudio();
+        /*
+         * Preparamos los eventos de
+         * interacción desde el principio.
+         */
+
+        addInteractionListeners();
+
+
+        /*
+         * Intentamos autoplay.
+         *
+         * Si el navegador lo permite:
+         * comienza inmediatamente.
+         *
+         * Si lo bloquea:
+         * los eventos de interacción
+         * quedan preparados.
+         */
+
+        playAudio({
+            fade: true
+        });
 
     }
 
@@ -677,7 +913,7 @@
 
         document.addEventListener(
             'DOMContentLoaded',
-            attemptAutoplay,
+            initializeAudio,
             {
                 once: true
             }
@@ -685,7 +921,7 @@
 
     } else {
 
-        attemptAutoplay();
+        initializeAudio();
 
     }
 
